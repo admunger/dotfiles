@@ -1,0 +1,14 @@
+[user]
+	email = a.munger@hotmail.com
+	name = Adriel
+[push]
+	default = simple
+[pager]
+    diff = "vim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c 'normal gg' -" 
+    show =  "vim -c 'set ft=diff' -c 'normal gg' -" 
+[diff]
+    tool = vimdiff
+#[difftool]
+#    prompt = false
+[merge]
+    tool = vimdiff
