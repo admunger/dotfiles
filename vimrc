@@ -4,7 +4,9 @@ set number
 set relativenumber
 set linebreak
 set mouse=a
+set splitright
 vmap C "+y
+set whichwrap+=<,>,[,]
 
 if has('gui_running')
     colorscheme pablo
@@ -29,5 +31,5 @@ set smartcase
 "set noet ci pi sts=0 sw=4 ts=4
 
 "Remap NERDTree command
-:command NE NERDTree
+:command NT NERDTree
 

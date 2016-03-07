@@ -11,7 +11,7 @@ set bell-style none
 
 TAB:complete
 
-# "\e[Z": menu-complete
+"\e[Z": menu-complete
 # menu-complete with Alt+s
-"\es": menu-complete
-"\eS": menu-complete-backward
+#"\es": menu-complete
+#"\eS": menu-complete-backward
