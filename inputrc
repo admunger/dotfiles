@@ -1,6 +1,7 @@
 set enable-meta-key On
 set editing-mode emacs
 set bell-style none
+set completion-ignore-case on
 
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
@@ -14,4 +15,4 @@ TAB:complete
 "\e[Z": menu-complete
 # menu-complete with Alt+s
 #"\es": menu-complete
-#"\eS": menu-complete-backward
+"\eS": menu-complete-backward

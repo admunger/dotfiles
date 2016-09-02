@@ -4,7 +4,7 @@
 [push]
 	default = simple
 [pager]
-    diff = "vim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c 'normal gg' -" 
+    #diff = "vim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c 'normal gg' -" 
     show =  "vim -c 'set ft=diff' -c 'normal gg' -" 
 [diff]
     tool = vimdiff
@@ -12,3 +12,7 @@
 #    prompt = false
 [merge]
     tool = vimdiff
+[http]
+    sslVerify=false
+[core]
+	editor = vim
