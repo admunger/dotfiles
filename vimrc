@@ -1,18 +1,17 @@
 execute pathogen#infect()
 
 "General options for all files
+"ruler options
+set ruler
 set number
 set relativenumber
-set linebreak
+
+set linebreak "backspace support
 set mouse=a
 set splitright
 set magic
 vmap C "+y
 set whichwrap+=<,>,[,]
-
-"CSV parameters
-"NewDelimiter ; "changes the delimiter
-"let g:csv_delim=';'
 
 "gvim configs
 if has('gui_running')
@@ -27,7 +26,7 @@ set shiftwidth=4
 set smarttab
 set expandtab
 set clipboard=unnamedplus
-set cindent
+set cindent  "indent like C code
 
 "Options for search features
 set hlsearch
@@ -53,3 +52,21 @@ set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 
 
+"CSV parameters
+"NewDelimiter ; "changes the delimiter
+"let g:csv_delim=';'
+
+
+"statusline options
+set laststatus=2
+set statusline=   " clear the statusline for when vimrc is reloaded
+set statusline+=%-3.3n\                      " buffer number
+set statusline+=%f\                          " file name
+set statusline+=%h%m%r%w                     " flags
+set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
+set statusline+=\ %{strlen(&fenc)?&fenc:&enc}, " encoding
+set statusline+=\ %{&fileformat}]              " file format
+set statusline+=%=                           " right align
+set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+set statusline+=%b,0x%-8B\                   " current char
+set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
