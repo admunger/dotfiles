@@ -1,12 +1,22 @@
 execute pathogen#infect()
 
+"Option to remove any traces in .viminfo
+set viminfo='0,:0,<0,@0,f0
+"            |  |  |  |  '-file marks 0-9,A-Z not saved               
+"            |  |  |  '-input-line history not saved
+"            |  |  '-registers not saved
+"            |  '-command-line history not saved
+"            '-file marks not saved
+"        no % : buffer list not saved
+"        no / : search history will be saved
+
 "General options for all files
 "ruler options
 set ruler
 set number
 set relativenumber
-
 set linebreak "backspace support
+set wildmenu
 set mouse=a
 set splitright
 set magic

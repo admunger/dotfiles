@@ -4,5 +4,6 @@ alias logout='gnome-session-quit'
 alias naut='nautilus . & xdotool search --onlyvisible --class nautilus windowactivate'
 alias foxit='FoxitReader &> /dev/null'
 alias rm='rm -v'
+alias evince='evince 2>/dev/null'
 
-CHAR=/home/famine/Documents/esteban8
+CHAR=/home/anubis/Documents/esteban8

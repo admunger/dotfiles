@@ -1,26 +1,36 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-enabled-themes (quote (deeper-blue))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; start directly in *scratch* buffer
+(setq inhibit-startup-screen t) 
 
 ;; for evil, Vim in Emacs
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
-;;(require 'evil)
-;;(evil-mode 1)
+;; Color theme specification from color-theme-library
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-oswald)
+;;;; Yes, I need that color scheme
+;;(require 'color-theme-sanityinc-tomorrow)
+;;(load-theme 'sanityinc-tomorrow-bright t)
+;;;; (color-theme-sanityinc-tomorrow--define-theme bright)
 
+;; Vim environment mappings
+(require 'evil)
+(evil-mode 1)
+(define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state)
+(define-key evil-replace-state-map (kbd "C-c") 'evil-normal-state)
+(global-relative-line-numbers-mode)
+;;(global-linum-mode 1) ;; line numbers
+(setq evil-normal-state-cursor '("yellow" box))
+(setq evil-emacs-state-cursor '("purple" box))
+(setq evil-insert-state-cursor '("yellow" bar))
+(setq evil-visual-state-cursor '("orange" box))
+(setq evil-replace-state-cursor '("red" box))
 
+;; color support in the emacs shell
+(color-theme-approximate-on)
 
 ;; org-mode preferences
 (add-hook 'org-mode-hook
@@ -30,7 +40,6 @@
 (setq org-hide-leading-stars t)
 
 ;; Makefile highlights
-
 (require 'make-mode)
 
 ;; emacs email environment
