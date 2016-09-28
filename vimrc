@@ -63,8 +63,8 @@ let g:tex_flavor='latex'
 
 
 "CSV parameters
-"NewDelimiter ; "changes the delimiter
-"let g:csv_delim=';'
+" NewDelimiter ; "changes the delimiter
+let g:csv_delim=';'
 
 
 "statusline options

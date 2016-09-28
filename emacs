@@ -5,6 +5,9 @@
 (custom-set-variables
     '(initial-frame-alist (quote ((fullscreen . maximized))))) 
 
+;; hide useless toolbar
+(tool-bar-mode -1)
+
 ;; for evil, Vim in Emacs
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -55,16 +58,19 @@
 ;; Makefile highlights
 (require 'make-mode)
 
-;; emacs email environment
-(setq user-mail-address "a.munger@hotmail.com")
-(setq user-full-name "Adriel Munger")
+;;;; emacs email environment
+;; gnus will wait because hotmail still have "2-step protection"
 
-(setq gnus-select-method
-    '(nnimap "hotmail"
-            (nnimap-address "imap-mail.outlook.com")
-            (nnimap-server-port "993")
-            (nnimap-stream ssl)))
-(setq smtpmail-smtp-service 587
-    gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
-;;avoid emacs deleting mail after retrieving them
-(setq vm-pop-expunge-after-retrieving nil) 
+;; (setq user-mail-address "a.munger@hotmail.com")
+;; (setq user-full-name "Adriel Munger")
+;;
+;; (setq gnus-select-method
+;;     '(nnimap "hotmail"
+;;             (nnimap-address "imap-mail.outlook.com")
+;;             (nnimap-server-port "993")
+;;             (nnimap-stream ssl)))
+;;;;(setq smtpmail-smtp-service 587
+;;;;    gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+;;
+;;;;avoid emacs deleting mail after retrieving them
+;;(setq vm-pop-expunge-after-retrieving nil) 
