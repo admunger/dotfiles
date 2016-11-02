@@ -25,7 +25,10 @@ set whichwrap+=<,>,[,]
 
 "gvim configs
 if has('gui_running')
-    colorscheme pablo
+    colorscheme torte
+    set guioptions-=T  "remove toolbar
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
 else
     colorscheme munger
 endif
@@ -33,7 +36,7 @@ endif
 "Code options
 set tabstop=4
 set shiftwidth=4
-set smarttab
+"set smarttab
 set expandtab
 set clipboard=unnamedplus
 set cindent  "indent like C code
@@ -64,8 +67,7 @@ let g:tex_flavor='latex'
 
 "CSV parameters
 " NewDelimiter ; "changes the delimiter
-let g:csv_delim=';'
-
+" let g:csv_delim=';'
 
 "statusline options
 set laststatus=2
@@ -80,3 +82,4 @@ set statusline+=%=                           " right align
 set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
 set statusline+=%b,0x%-8B\                   " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
+

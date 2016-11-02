@@ -1,9 +1,19 @@
 ;; start directly in *scratch* buffer
 (setq inhibit-startup-screen t) 
+(setq read-file-name-completion-ignore-case t)
 
 ;; start maximized
 (custom-set-variables
-    '(initial-frame-alist (quote ((fullscreen . maximized))))) 
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auth-source-save-behavior nil)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(org-agenda-files
+   (quote
+    ("~/Documents/horaire_relâche.org" "~/Documents/agenda.org" "~/elec2016.org")) t))
+ 
 
 ;; hide useless toolbar
 (tool-bar-mode -1)
@@ -25,18 +35,18 @@
 ;;;; Vim environment mappings
 (require 'evil)
 (evil-mode 1)
-;; Key to return to Normal-state
-(define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
-(define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state)
-(define-key evil-replace-state-map (kbd "C-c") 'evil-normal-state)
+;; Key to return to Normal-state : NOW IT IS CAPS LOCK MAPPED TO ESC
+;;(define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
+;;(define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state)
+;;(define-key evil-replace-state-map (kbd "C-c") 'evil-normal-state)
 ;; relative numbers on left
 (global-relative-line-numbers-mode)
 ;;(global-linum-mode 1) ;; line numbers
 
 ;; set pretty cursors for every mode
-(setq evil-normal-state-cursor '("yellow" box))
+(setq evil-normal-state-cursor '("cyan" box))
 (setq evil-emacs-state-cursor '("purple" box))
-(setq evil-insert-state-cursor '("yellow" bar))
+(setq evil-insert-state-cursor '("blue" bar))
 (setq evil-visual-state-cursor '("orange" box))
 (setq evil-replace-state-cursor '("red" box))
 ;; allow to jump on next visible line instead of next real line (after CRLF)
@@ -49,10 +59,14 @@
 (color-theme-approximate-on)
 
 ;; org-mode preferences
-(add-hook 'org-mode-hook
-	  (lambda ()
-	    (org-bullets-mode t)))
-
+;; (add-hook 'org-mode-hook
+;; 	  (lambda ()
+;; 	    (org-bullets-mode t)))
+(custom-theme-set-faces 'user
+                        '(org-level-1 ((t (:foreground "white" :bold t))))
+                        '(org-level-2 ((t (:foreground "red"))))
+                        '(org-level-3 ((t (:foreground "orange"))))
+                        '(org-level-4 ((t (:foreground "yellow")))))
 (setq org-hide-leading-stars t)
 
 ;; Makefile highlights
@@ -61,16 +75,39 @@
 ;;;; emacs email environment
 ;; gnus will wait because hotmail still have "2-step protection"
 
-;; (setq user-mail-address "a.munger@hotmail.com")
-;; (setq user-full-name "Adriel Munger")
-;;
-;; (setq gnus-select-method
-;;     '(nnimap "hotmail"
-;;             (nnimap-address "imap-mail.outlook.com")
-;;             (nnimap-server-port "993")
-;;             (nnimap-stream ssl)))
-;;;;(setq smtpmail-smtp-service 587
-;;;;    gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
-;;
-;;;;avoid emacs deleting mail after retrieving them
-;;(setq vm-pop-expunge-after-retrieving nil) 
+ (setq user-mail-address "a.munger@hotmail.com")
+ (setq user-full-name "Adriel Munger")
+
+ (setq gnus-select-method
+     '(nnimap "hotmail"
+             (nnimap-address "imap-mail.outlook.com")
+             (nnimap-server-port "993")
+             (nnimap-stream ssl)
+             (nnir-search-engine imap)))
+(setq smtpmail-default-smtp-server "smtp-mail.outlook.com")
+(setq smtpmail-smtp-service 587
+   gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+
+;;avoid emacs deleting mail after retrieving them
+(setq vm-pop-expunge-after-retrieving nil) 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; LaTex preferences
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) or auto-fill mode
+;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+;; (setq reftex-plug-into-AUCTeX t)
+(setq TeX-PDF-mode t)
+;; (TeX-global-PDF-mode t)
+
+;; Org-Mode configurations
+(setq org-agenda-files (quote ("~/Documents/agenda.org"
+			       "~/elec2016.org")))
