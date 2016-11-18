@@ -1,3 +1,5 @@
+; vi:syntax=lisp
+
 ;; start directly in *scratch* buffer
 (setq inhibit-startup-screen t) 
 (setq read-file-name-completion-ignore-case t)
@@ -12,7 +14,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(org-agenda-files
    (quote
-    ("~/Documents/horaire_rel‚che.org" "~/Documents/agenda.org" "~/elec2016.org")) t))
+    ("~/Documents/horaire_rel√¢che.org" "~/Documents/agenda.org" "~/elec2016.org")) t))
  
 
 ;; hide useless toolbar
@@ -32,15 +34,16 @@
 ;;(load-theme 'sanityinc-tomorrow-bright t)
 ;;;; (color-theme-sanityinc-tomorrow--define-theme bright)
 
+;; EMACS DEFAULT BEHAVIOUR
+(global-set-key "\C-s" 'isearch-forward-regexp)
+
 ;;;; Vim environment mappings
+(setq evil-want-C-u-scroll t)
 (require 'evil)
 (evil-mode 1)
-;; Key to return to Normal-state : NOW IT IS CAPS LOCK MAPPED TO ESC
-;;(define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
-;;(define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state)
-;;(define-key evil-replace-state-map (kbd "C-c") 'evil-normal-state)
-;; relative numbers on left
 (global-relative-line-numbers-mode)
+(setq relative-line-numbers-motion-function 'forward-line)
+(setq relative-line-numbers-max-count 60)
 ;;(global-linum-mode 1) ;; line numbers
 
 ;; set pretty cursors for every mode
@@ -58,15 +61,18 @@
 ;; color support in the emacs shell
 (color-theme-approximate-on)
 
-;; org-mode preferences
-;; (add-hook 'org-mode-hook
-;; 	  (lambda ()
+;;org-mode preferences
+(add-hook 'org-mode-hook
+ 	  (lambda ()
+      (visual-line-mode t)))
 ;; 	    (org-bullets-mode t)))
 (custom-theme-set-faces 'user
                         '(org-level-1 ((t (:foreground "white" :bold t))))
                         '(org-level-2 ((t (:foreground "red"))))
                         '(org-level-3 ((t (:foreground "orange"))))
-                        '(org-level-4 ((t (:foreground "yellow")))))
+                        '(org-level-4 ((t (:foreground "DodgerBlue"))))
+                        '(org-level-5 ((t (:foreground "pink"))))
+                        '(org-level-6 ((t (:foreground "magenta")))))
 (setq org-hide-leading-stars t)
 
 ;; Makefile highlights
@@ -75,8 +81,8 @@
 ;;;; emacs email environment
 ;; gnus will wait because hotmail still have "2-step protection"
 
- (setq user-mail-address "a.munger@hotmail.com")
- (setq user-full-name "Adriel Munger")
+(setq user-mail-address "a.munger@hotmail.com")
+(setq user-full-name "Adriel Munger")
 
  (setq gnus-select-method
      '(nnimap "hotmail"
