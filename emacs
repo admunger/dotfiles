@@ -1,4 +1,6 @@
 ; vi:syntax=lisp
+;; Personnal configuration
+(load-file "~/.emacs.d/private.el")
 
 ;; start directly in *scratch* buffer
 (setq inhibit-startup-screen t) 
@@ -11,11 +13,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
- '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(org-agenda-files
-   (quote
-    ("~/Documents/horaire_relâche.org" "~/Documents/agenda.org" "~/elec2016.org")) t))
+ '(initial-frame-alist (quote ((fullscreen . maximized)))))
  
+;; access today's date
+(defun insert-current-date () (interactive)
+    (insert (shell-command-to-string "echo -n $(date +%Y/%m/%d)")))
+(global-set-key "\C-x\M-d" 'insert-current-date)
 
 ;; hide useless toolbar
 (tool-bar-mode -1)
@@ -29,7 +32,7 @@
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-oswald)
-;;;; Yes, I need that color scheme
+;;(color-theme-calm-forest)
 ;;(require 'color-theme-sanityinc-tomorrow)
 ;;(load-theme 'sanityinc-tomorrow-bright t)
 ;;;; (color-theme-sanityinc-tomorrow--define-theme bright)
@@ -57,6 +60,9 @@
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 ;; show the matching parenthesis/braces/etc.
 (show-paren-mode t)
+;;(require 'highlight)
+;;(require 'evil-search-highlight-persist)
+;;(global-evil-search-highlight-persist t)
 
 ;; color support in the emacs shell
 (color-theme-approximate-on)
@@ -78,22 +84,6 @@
 ;; Makefile highlights
 (require 'make-mode)
 
-;;;; emacs email environment
-;; gnus will wait because hotmail still have "2-step protection"
-
-(setq user-mail-address "a.munger@hotmail.com")
-(setq user-full-name "Adriel Munger")
-
- (setq gnus-select-method
-     '(nnimap "hotmail"
-             (nnimap-address "imap-mail.outlook.com")
-             (nnimap-server-port "993")
-             (nnimap-stream ssl)
-             (nnir-search-engine imap)))
-(setq smtpmail-default-smtp-server "smtp-mail.outlook.com")
-(setq smtpmail-smtp-service 587
-   gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
-
 ;;avoid emacs deleting mail after retrieving them
 (setq vm-pop-expunge-after-retrieving nil) 
 (custom-set-faces
@@ -114,6 +104,11 @@
 (setq TeX-PDF-mode t)
 ;; (TeX-global-PDF-mode t)
 
-;; Org-Mode configurations
-(setq org-agenda-files (quote ("~/Documents/agenda.org"
-			       "~/elec2016.org")))
+
+;; LEDGER MODE CONFIGURATION
+(use-package ledger-mode
+    :ensure t
+    :init
+    :config
+    :mode "\\.dat\\'") 
+(setq ledger-highlight-xact-under-point nil)

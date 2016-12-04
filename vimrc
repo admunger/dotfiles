@@ -30,7 +30,7 @@ if has('gui_running')
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
 else
-    colorscheme munger
+    colorscheme elflord
 endif
 
 "Code options
@@ -55,7 +55,9 @@ set smartcase
 :command NT NERDTree
 
 "LaTex-related options
+set modeline
 filetype plugin on
+syntax on
 filetype indent on
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
