@@ -12,6 +12,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LaTeX-indent-level 4)
+ '(TeX-brace-indent-level 4)
+ '(TeX-newline-function (quote newline-and-indent))
  '(auth-source-save-behavior nil)
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
  
@@ -27,12 +30,14 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
+(setq evil-shift-width 4)
+(set 'evil-vsplit-window-right t)
 
 ;; Color theme specification from color-theme-library
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-oswald)
-;;(color-theme-calm-forest)
+;;(color-theme-oswald)
+(color-theme-calm-forest)
 ;;(require 'color-theme-sanityinc-tomorrow)
 ;;(load-theme 'sanityinc-tomorrow-bright t)
 ;;;; (color-theme-sanityinc-tomorrow--define-theme bright)
@@ -91,18 +96,35 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-level-1 ((t (:foreground "white" :bold t))))
+ '(org-level-2 ((t (:foreground "red"))))
+ '(org-level-3 ((t (:foreground "orange"))))
+ '(org-level-4 ((t (:foreground "DodgerBlue"))))
+ '(org-level-5 ((t (:foreground "pink"))))
+ '(org-level-6 ((t (:foreground "magenta")))))
 
 ;; LaTex preferences
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) or auto-fill mode
+(add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
+;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; or auto-fill mode
 ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 ;; (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 ;; (TeX-global-PDF-mode t)
+(setq-default LaTeX-default-offset 4)
+(setq-default TeX-newline-function 'newline-and-indent)
+(setq-default indent-tabs-mode t) ; I want tabs. I like tabs
+(setq-default standard-indent 4) ; A tab is 4 spaces
+(setq-default tab-width 4) ; A tab is still 4 spaces... what's the difference to the above?
+;; Company stuff (doesn't work for the moment)
+(require 'company-auctex)
+(company-auctex-init) 
+;;;;set in scratch, set it if tabs went wild
+;; (set 'tab-always-indent nil)
+;; (set 'indent-line-function 'indent-relative)
 
 
 ;; LEDGER MODE CONFIGURATION
