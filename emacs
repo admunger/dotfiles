@@ -63,6 +63,18 @@
 ;; allow to jump on next visible line instead of next real line (after CRLF)
 (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+;; Vim-surround
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
+;; Git : magit
+;; (setq evil-magit-state 'motion)
+;; (require 'evil-magit)
+
+(evil-set-initial-state 'shell-mode 'emacs)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; show the matching parenthesis/braces/etc.
 (show-paren-mode t)
 ;;(require 'highlight)
