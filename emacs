@@ -36,11 +36,17 @@
 ;; Color theme specification from color-theme-library
 (require 'color-theme)
 (color-theme-initialize)
-;;(color-theme-oswald)
+;;(color-theme-oswald) color-theme-euphoria
 (color-theme-calm-forest)
 ;;(require 'color-theme-sanityinc-tomorrow)
 ;;(load-theme 'sanityinc-tomorrow-bright t)
 ;;;; (color-theme-sanityinc-tomorrow--define-theme bright)
+
+;; this is to keep background in terminal
+;; (defun on-after-init ()
+;;   (unless (display-graphic-p (selected-frame))
+;;     (set-face-background 'default "unspecified-bg" (selected-frame))))
+;; (add-hook 'window-setup-hook 'on-after-init)
 
 ;; EMACS DEFAULT BEHAVIOUR
 (global-set-key "\C-s" 'isearch-forward-regexp)
@@ -122,7 +128,7 @@
 ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; or auto-fill mode
 ;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex) will be done soon
 ;; (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 ;; (TeX-global-PDF-mode t)
@@ -132,8 +138,19 @@
 (setq-default standard-indent 4) ; A tab is 4 spaces
 (setq-default tab-width 4) ; A tab is still 4 spaces... what's the difference to the above?
 ;; Company stuff (doesn't work for the moment)
-(require 'company-auctex)
-(company-auctex-init) 
+;; (require 'company-auctex)
+;; (company-auctex-init) 
+(add-to-list 'load-path "~/.emacs.d/elpa/predictive/")
+(add-to-list 'load-path "~/.emacs.d/elpa/predictive/latex/")
+(autoload 'predictive-mode "predictive" "predictive" t)
+(set-default 'predictive-auto-add-to-dict t)
+(setq predictive-main-dict 'rpg-dictionary
+      predictive-auto-learn t
+      predictive-add-to-dict-ask nil
+      predictive-use-auto-learn-cache nil
+      predictive-which-dict t)
+(require 'predictive)
+
 ;;;;set in scratch, set it if tabs went wild
 ;; (set 'tab-always-indent nil)
 ;; (set 'indent-line-function 'indent-relative)
@@ -146,3 +163,10 @@
     :config
     :mode "\\.dat\\'") 
 (setq ledger-highlight-xact-under-point nil)
+
+;; Helm Configuration
+(require 'helm)
+(require 'helm-config)
+;;(helm-mode 0)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
