@@ -117,3 +117,11 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Java location
+JAVA_HOME=/usr/local/java/jre1.8.0_111
+PATH=$PATH:$JAVA_HOME/bin
+
+# TexLive location
+TEXLIVE_HOME=/opt/texbin
+PATH=$TEXLIVE_HOME:$PATH

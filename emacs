@@ -1,4 +1,3 @@
-; vi:syntax=lisp
 ;; Personnal configuration
 (load-file "~/.emacs.d/private.el")
 
@@ -63,24 +62,13 @@
 ;; set pretty cursors for every mode
 (setq evil-normal-state-cursor '("cyan" box))
 (setq evil-emacs-state-cursor '("purple" box))
-(setq evil-insert-state-cursor '("blue" bar))
+(setq evil-insert-state-cursor '("cyan" bar))
 (setq evil-visual-state-cursor '("orange" box))
 (setq evil-replace-state-cursor '("red" box))
 ;; allow to jump on next visible line instead of next real line (after CRLF)
-(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-;; Vim-surround
-(require 'evil-surround)
-(global-evil-surround-mode 1)
-
-;; Git : magit
-;; (setq evil-magit-state 'motion)
-;; (require 'evil-magit)
-
-(evil-set-initial-state 'shell-mode 'emacs)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+;; (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+(define-key evil-insert-state-map (kbd "C-V") 'evil-paste-after)
 ;; show the matching parenthesis/braces/etc.
 (show-paren-mode t)
 ;;(require 'highlight)
@@ -95,13 +83,6 @@
  	  (lambda ()
       (visual-line-mode t)))
 ;; 	    (org-bullets-mode t)))
-(custom-theme-set-faces 'user
-                        '(org-level-1 ((t (:foreground "white" :bold t))))
-                        '(org-level-2 ((t (:foreground "red"))))
-                        '(org-level-3 ((t (:foreground "orange"))))
-                        '(org-level-4 ((t (:foreground "DodgerBlue"))))
-                        '(org-level-5 ((t (:foreground "pink"))))
-                        '(org-level-6 ((t (:foreground "magenta")))))
 (setq org-hide-leading-stars t)
 
 ;; Makefile highlights
@@ -115,9 +96,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-level-1 ((t (:foreground "white" :bold t))))
- '(org-level-2 ((t (:foreground "red"))))
+ '(org-level-2 ((t (:foreground "DodgerBlue"))))
  '(org-level-3 ((t (:foreground "orange"))))
- '(org-level-4 ((t (:foreground "DodgerBlue"))))
+ '(org-level-4 ((t (:foreground "red"))))
  '(org-level-5 ((t (:foreground "pink"))))
  '(org-level-6 ((t (:foreground "magenta")))))
 

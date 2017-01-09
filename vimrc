@@ -32,6 +32,9 @@ if has('gui_running')
 else
     colorscheme munger "elflord
 endif
+if &diff
+    colorscheme valloric
+endif
 
 "Code options
 set tabstop=4
