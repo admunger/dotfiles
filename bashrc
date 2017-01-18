@@ -124,4 +124,6 @@ PATH=$PATH:$JAVA_HOME/bin
 
 # TexLive location
 TEXLIVE_HOME=/opt/texbin
+TEXMFHOME=/usr/share/texlive/texmf-dist
+MANPATH=$MANPATH:/usr/local/texlive/2016
 PATH=$TEXLIVE_HOME:$PATH

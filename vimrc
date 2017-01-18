@@ -18,7 +18,13 @@ set relativenumber
 set linebreak "backspace support
 set wildmenu
 set mouse=a
+" split configs
 set splitright
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-H> <C-W>w
+nnoremap <C-L> <C-W>l
+
 set magic
 vmap C "+y
 set whichwrap+=<,>,[,]
