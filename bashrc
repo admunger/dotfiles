@@ -127,3 +127,6 @@ TEXLIVE_HOME=/opt/texbin
 TEXMFHOME=/usr/share/texlive/texmf-dist
 MANPATH=$MANPATH:/usr/local/texlive/2016
 PATH=$TEXLIVE_HOME:$PATH
+
+# allow Ctrl+s for VIM
+stty -ixon
