@@ -5,7 +5,6 @@
 (setq inhibit-startup-screen t) 
 (setq read-file-name-completion-ignore-case t)
 
-;; start maximized
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -55,6 +54,8 @@
 (require 'evil)
 (evil-mode 1)
 (global-relative-line-numbers-mode)
+(setq linum-format "%2d")
+
 (setq relative-line-numbers-motion-function 'forward-line)
 (setq relative-line-numbers-max-count 60)
 ;;(global-linum-mode 1) ;; line numbers
@@ -66,6 +67,18 @@
 (setq evil-visual-state-cursor '("orange" box))
 (setq evil-replace-state-cursor '("red" box))
 ;; allow to jump on next visible line instead of next real line (after CRLF)
+;; Vim-surround
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
+;; Git : magit
+;; (setq evil-magit-state 'motion)
+;; (require 'evil-magit)
+
+(evil-set-initial-state 'shell-mode 'emacs)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
 ;; (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 (define-key evil-insert-state-map (kbd "C-V") 'evil-paste-after)
@@ -105,9 +118,14 @@
 ;; LaTex preferences
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-(add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
+(setq-default TeX-master nil)
+(setq TeX-save-query nil)
+(add-hook 'tex-mode-hook (lambda () (setq ispell-parser 'tex)))
+(setq ispell-dictionary "francais")
+;; (add-hook 'LaTeX-mode-hook (lambda () (define-key LaTex-mode-map (kbd "$") (kbd "C-u $"))))
+;; (add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
 ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; or auto-fill mode
-;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex) will be done soon
 ;; (setq reftex-plug-into-AUCTeX t)
@@ -118,9 +136,13 @@
 (setq-default indent-tabs-mode t) ; I want tabs. I like tabs
 (setq-default standard-indent 4) ; A tab is 4 spaces
 (setq-default tab-width 4) ; A tab is still 4 spaces... what's the difference to the above?
-;; Company stuff (doesn't work for the moment)
+
+;; Company stuff
+;; (add-hook 'tex-mode-hook (lambda () (set (make-local-variable 'company-backends) '(company-auctex))))
 ;; (require 'company-auctex)
 ;; (company-auctex-init) 
+
+;; Predictive stuff
 (add-to-list 'load-path "~/.emacs.d/elpa/predictive/")
 (add-to-list 'load-path "~/.emacs.d/elpa/predictive/latex/")
 (autoload 'predictive-mode "predictive" "predictive" t)
