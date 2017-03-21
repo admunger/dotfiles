@@ -1,3 +1,5 @@
+set nocompatible
+
 execute pathogen#infect()
 
 "Option to remove any traces in .viminfo
@@ -17,13 +19,15 @@ set number
 set relativenumber
 set linebreak "backspace support
 set wildmenu
+set wildignore=*.pdf,*.png,*.eps,*.o,*.mat
 set mouse=a
 " split configs
 set splitright
-nnoremap <C-J> <C-W>j
-nnoremap <C-K> <C-W>k
-nnoremap <C-H> <C-W>w
-nnoremap <C-L> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>w
+nnoremap <C-l> <C-W>l
+cnoreabbrev Q q
 
 set magic
 vmap C "+y
@@ -36,7 +40,9 @@ if has('gui_running')
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
 else
-    colorscheme munger "elflord
+    set t_Co=256 "256 colors
+    colorscheme munger2 "eldar elflord
+    "set to goldenrod for gray comments
 endif
 if &diff
     colorscheme valloric
@@ -95,3 +101,4 @@ set statusline+=%b,0x%-8B\                   " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 
 inoremap <C-s> <C-o>:update<CR>
+set iskeyword-=58 "colon
