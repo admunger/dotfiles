@@ -1,0 +1,24 @@
+/* Remove extra padding from the Navigation Bar */
+.toolbarbutton-1, .toolbarbutton-menubutton-button {
+padding: 2px 3px !important;
+}
+.toolbarbutton-1[checked="true"], .toolbarbutton-1[open="true"],
+.toolbarbutton-menubutton-button[checked="true"],
+.toolbarbutton-menubutton-button[open="true"] {
+padding: 4px 1px 1px 4px !important;
+}
+
+
+/* Set max toolbar height */
+toolbar {max-height: 32px !important
+} 
+
+/* Lower the tab bar */
+tab {height: 20px !important;
+     max-height: 20px !important;
+     -moz-appearance: none !important;
+}
+
+PersonalToolbar {
+max-height:15px
+}

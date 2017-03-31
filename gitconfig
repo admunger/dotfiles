@@ -16,3 +16,5 @@
     sslVerify=false
 [core]
 	editor = vim
+[add]
+    default = ignore-removal
