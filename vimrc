@@ -1,5 +1,4 @@
 set nocompatible
-
 execute pathogen#infect()
 
 "Option to remove any traces in .viminfo
@@ -49,6 +48,8 @@ if &diff
 endif
 
 "Code options
+set modeline
+syntax on
 set tabstop=4
 set shiftwidth=4
 "set smarttab
@@ -72,7 +73,6 @@ set smartcase
 "LaTex-related options
 set modeline
 filetype plugin on
-syntax on
 filetype indent on
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep

@@ -1,3 +1,6 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* only needed once */
+#TabsToolbar { height: 20px !important; }
+#PersonalToolbar {height: 23px !important;}
 /* Remove extra padding from the Navigation Bar */
 .toolbarbutton-1, .toolbarbutton-menubutton-button {
 padding: 2px 3px !important;
@@ -17,8 +20,4 @@ toolbar {max-height: 32px !important
 tab {height: 20px !important;
      max-height: 20px !important;
      -moz-appearance: none !important;
-}
-
-PersonalToolbar {
-max-height:15px
 }

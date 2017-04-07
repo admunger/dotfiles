@@ -1,3 +1,4 @@
+; vi:syntax=lisp
 ;; Personnal configuration
 (load-file "~/.emacs.d/private.el")
 
@@ -14,7 +15,10 @@
  '(TeX-brace-indent-level 4)
  '(TeX-newline-function (quote newline-and-indent))
  '(auth-source-save-behavior nil)
+ '(company-idle-delay 0.3))
+ ;; start maximized
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
+(global-set-key (kbd "C-h h") nil) 
  
 ;; access today's date
 (defun insert-current-date () (interactive)
@@ -24,6 +28,10 @@
 ;; hide useless toolbar
 (tool-bar-mode -1)
 
+(add-hook 'after-init-hook 'global-company-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for evil, Vim in Emacs
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -138,21 +146,21 @@
 (setq-default tab-width 4) ; A tab is still 4 spaces... what's the difference to the above?
 
 ;; Company stuff
-;; (add-hook 'tex-mode-hook (lambda () (set (make-local-variable 'company-backends) '(company-auctex))))
-;; (require 'company-auctex)
-;; (company-auctex-init) 
+(add-hook 'tex-mode-hook (lambda () (set (make-local-variable 'company-backends) '(company-auctex))))
+(require 'company-auctex)
+(company-auctex-init) 
 
-;; Predictive stuff
-(add-to-list 'load-path "~/.emacs.d/elpa/predictive/")
-(add-to-list 'load-path "~/.emacs.d/elpa/predictive/latex/")
-(autoload 'predictive-mode "predictive" "predictive" t)
-(set-default 'predictive-auto-add-to-dict t)
-(setq predictive-main-dict 'rpg-dictionary
-      predictive-auto-learn t
-      predictive-add-to-dict-ask nil
-      predictive-use-auto-learn-cache nil
-      predictive-which-dict t)
-(require 'predictive)
+;; ;; Predictive stuff
+;; (add-to-list 'load-path "~/.emacs.d/elpa/predictive/")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/predictive/latex/")
+;; (autoload 'predictive-mode "predictive" "predictive" t)
+;; (set-default 'predictive-auto-add-to-dict t)
+;; (setq predictive-main-dict 'rpg-dictionary
+;;       predictive-auto-learn t
+;;       predictive-add-to-dict-ask nil
+;;       predictive-use-auto-learn-cache nil
+;;       predictive-which-dict t)
+;; (require 'predictive)
 
 ;;;;set in scratch, set it if tabs went wild
 ;; (set 'tab-always-indent nil)
