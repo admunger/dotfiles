@@ -17,8 +17,13 @@ alias os_version='cat /var/log/installer/media-info && echo'
 alias swap_clean='sudo swapoff -a && sudo swapon -a'
 alias check_term_lvl='ps aux | grep -E "vim|ranger|tmux"'
 alias lshead='ls -t | head'
-alias ranger="ranger --choosedir=$HOME/.config/ranger/rangercd; cd \"$(cat $HOME/.config/ranger/rangercd)\""
 
-CAR=/home/anubis/Documents/esteban8
-LEDGERFILE=/home/anubis/Documents/ADRIEL/Argent/ledgerJournal.dat
+RANGER_OUTPUT="$HOME/.config/ranger/rangercd"
+CHEAT="$HOME/cheatSheet"
+#alias ranger="ranger --choosedir=$RANGD && cd $(cat $RANGD)"
+alias ranger='ranger --choosedir=$RANGER_OUTPUT && cd "$(cat $RANGER_OUTPUT)"'
+alias ranger_cd='cd "$(cat $RANGER_OUTPUT)"'
+alias update_upgrade="sudo apt-get update && sudo apt-get upgrade -y"
+alias Date="date +%Y/%m/%d"
+
 NEXUS=/run/user/*/gvfs/*/

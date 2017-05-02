@@ -22,7 +22,7 @@ set wildignore=*.pdf,*.png,*.eps,*.o,*.mat
 set mouse=a
 " split configs
 set splitright
-nnoremap <C-j> <C-W>j
+"nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>w
 nnoremap <C-l> <C-W>l
@@ -71,7 +71,6 @@ set smartcase
 :command NT NERDTree
 
 "LaTex-related options
-set modeline
 filetype plugin on
 filetype indent on
 " IMPORTANT: grep will sometimes skip displaying the file name if you
@@ -99,6 +98,26 @@ set statusline+=%=                           " right align
 set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
 set statusline+=%b,0x%-8B\                   " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
+"airline status-line
+let g:airline_section_b = '%f'
+let g:airline_section_c = '%{strlen(&fenc)?&fenc:&enc}, %{&fileformat}'
+let g:airline_section_d = "%{synIDattr(synID(line('.'),col('.'),1),'name')}"
+let g:airline#extensions#default#layout = [
+      \ [ 'a', 'b', 'c' ],
+      \ [ 'x', 'z', 'error', 'warning' ]
+      \ ]
+let g:airline#extensions#tabline#enabled = 0
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_theme='dark' " :AirlineTheme
 
+"set shell=/bin/bash\ -i
 inoremap <C-s> <C-o>:update<CR>
+nnoremap <C-s> :update<CR>
 set iskeyword-=58 "colon
+
+"EasyAlign plugin
+"nnoremap ga :EasyAlign<CR>
+
+"cd to current buffer
+autocmd BufEnter * silent! lcd %:p:h

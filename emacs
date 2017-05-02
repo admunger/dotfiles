@@ -5,13 +5,13 @@
 ;; start directly in *scratch* buffer
 (setq inhibit-startup-screen t) 
 (setq read-file-name-completion-ignore-case t)
+(global-unset-key (kbd "<menu>"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(LaTeX-indent-level 4)
  '(TeX-brace-indent-level 4)
  '(TeX-newline-function (quote newline-and-indent))
  '(auth-source-save-behavior nil)
@@ -127,8 +127,8 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
-(setq TeX-save-query nil)
-(add-hook 'tex-mode-hook (lambda () (setq ispell-parser 'tex)))
+(setq TeX-save-query nil) ;;autosave before compiling
+(add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
 (setq ispell-dictionary "francais")
 ;; (add-hook 'LaTeX-mode-hook (lambda () (define-key LaTex-mode-map (kbd "$") (kbd "C-u $"))))
 ;; (add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
@@ -138,6 +138,8 @@
 ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex) will be done soon
 ;; (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
+;;(setq LaTeX-item-indent 4)
+(setq LaTeX-indent-level 4)
 ;; (TeX-global-PDF-mode t)
 (setq-default LaTeX-default-offset 4)
 (setq-default TeX-newline-function 'newline-and-indent)
@@ -146,7 +148,8 @@
 (setq-default tab-width 4) ; A tab is still 4 spaces... what's the difference to the above?
 
 ;; Company stuff
-(add-hook 'tex-mode-hook (lambda () (set (make-local-variable 'company-backends) '(company-auctex))))
+(add-hook 'tex-mode-hook (lambda () 
+    (set (make-local-variable 'company-backends) '(company-auctex))))
 (require 'company-auctex)
 (company-auctex-init) 
 
