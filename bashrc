@@ -66,6 +66,9 @@ if [ "$color_prompt" = yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+
+# Print tty number in title
+PS1="\[\e]0;$(tty | cut -d/ -f3,4) | ${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
@@ -119,14 +122,13 @@ if ! shopt -oq posix; then
 fi
 
 # Java location
-JAVA_HOME=/usr/local/java/jre1.8.0_111
-PATH=$PATH:$JAVA_HOME/bin
+# $PATH is set in ~/.profile
 
 # TexLive location
 TEXLIVE_HOME=/opt/texbin
 TEXMFHOME=/usr/share/texlive/texmf-dist
-MANPATH=$MANPATH:/usr/local/texlive/2016
-PATH=$TEXLIVE_HOME:$PATH
+# MANPATH=$MANPATH:/usr/local/texlive/2016
+# PATH=$TEXLIVE_HOME:$PATH
 
 # allow Ctrl+s for VIM
 stty -ixon
