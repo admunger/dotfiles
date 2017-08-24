@@ -1,15 +1,16 @@
 set nocompatible
+
 execute pathogen#infect()
 
 "Option to remove any traces in .viminfo
-set viminfo='0,:0,<0,@0,f0
-"            |  |  |  |  '-file marks 0-9,A-Z not saved               
-"            |  |  |  '-input-line history not saved
-"            |  |  '-registers not saved
-"            |  '-command-line history not saved
-"            '-file marks not saved
+set viminfo=/5,'0,:5,<0,@0,f0
+"            |  |  |  |  |  '-file marks 0-9,A-Z not saved               
+"            |  |  |  |  '-input-line history not saved
+"            |  |  |  '-registers not saved
+"            |  |  '-5 last command-line history saved
+"            |  '-file marks not saved
+"            '-5 recent search history will be saved
 "        no % : buffer list not saved
-"        no / : search history will be saved
 
 "General options for all files
 "ruler options
@@ -18,7 +19,9 @@ set number
 set relativenumber
 set linebreak "backspace support
 set wildmenu
-set wildignore=*.pdf,*.png,*.eps,*.o,*.mat
+set wildignore=*.pdf,*.png,*.eps,*.o
+"case-insensitive file completion
+set wildignorecase
 set mouse=a
 " split configs
 set splitright
@@ -32,24 +35,24 @@ set magic
 vmap C "+y
 set whichwrap+=<,>,[,]
 
+set t_Co=256 "256 colors
 "gvim configs
 if has('gui_running')
-    colorscheme gurunew
+    colorscheme badwolf "gurunew
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
 else
-    set t_Co=256 "256 colors
     colorscheme munger2 "eldar elflord
     "set to goldenrod for gray comments
 endif
+
 if &diff
-    colorscheme valloric
+    colorscheme goldenrod
 endif
 
 "Code options
 set modeline
-syntax on
 set tabstop=4
 set shiftwidth=4
 "set smarttab
@@ -70,9 +73,9 @@ set smartcase
 "Remap NERDTree command
 :command NT NERDTree
 
-"LaTex-related options
 filetype plugin on
 filetype indent on
+syntax on
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
@@ -98,18 +101,23 @@ set statusline+=%=                           " right align
 set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
 set statusline+=%b,0x%-8B\                   " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "airline status-line
-let g:airline_section_b = '%f'
-let g:airline_section_c = '%{strlen(&fenc)?&fenc:&enc}, %{&fileformat}'
-let g:airline_section_d = "%{synIDattr(synID(line('.'),col('.'),1),'name')}"
-let g:airline#extensions#default#layout = [
-      \ [ 'a', 'b', 'c' ],
-      \ [ 'x', 'z', 'error', 'warning' ]
-      \ ]
-let g:airline#extensions#tabline#enabled = 0
-" let g:airline#extensions#tabline#left_sep = ' '
-" let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_theme='dark' " :AirlineTheme
+"airline disabling switch
+let g:loaded_airline = 1
+if g:loaded_airline
+    let g:airline_section_b = '%f'
+    let g:airline_section_c = '%{strlen(&fenc)?&fenc:&enc}, %{&fileformat}'
+    let g:airline_section_d = "%{synIDattr(synID(line('.'),col('.'),1),'name')}"
+    let g:airline#extensions#default#layout = [
+          \ [ 'a', 'b', 'c' ],
+          \ [ 'x', 'z', 'error', 'warning' ]
+          \ ]
+    let g:airline#extensions#tabline#enabled = 0
+    " let g:airline#extensions#tabline#left_sep = ' '
+    " let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline_theme='dark' " :AirlineTheme
+endif
 
 "set shell=/bin/bash\ -i
 inoremap <C-s> <C-o>:update<CR>
@@ -120,8 +128,10 @@ set iskeyword-=58 "colon
 "nnoremap ga :EasyAlign<CR>
 
 "cd to current buffer
-autocmd BufEnter * silent! lcd %:p:h
+"autocmd BufEnter * silent! lcd %:p:h
 
+"disable auto-commenting
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " vim -b : edit binary using xxd-format!
 augroup Binary
     au!
@@ -133,3 +143,15 @@ augroup Binary
     au BufWritePost *.bin if &bin | %!xxd
     au BufWritePost *.bin set nomod | endif
 augroup END
+
+
+"Tags options
+"Exuberant-ctags location
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
+let g:Tlist_Use_Split_Window=0
+
+" Leader options
+let mapleader = "é"
+"nnoremap <leader>d dd
+
+"maplocalleader -> leader for specific filetype
