@@ -14,7 +14,8 @@ let g:c_ftplugin_loaded = 1
 nmap <silent> <C-J> :call C:nextLine()<CR>
 nmap <silent> <C-K> :call C:prevLine()<CR>
 
-nmap <silent> <leader>t :call C:toggleHeader()<CR>
+nmap <silent> <leader>h :call C:toggleHeader()<CR>
+nmap <silent> <leader>t :call C:toggleTreeList()<CR>
 "
 "echo a variable during debug : 
 "echo varName
@@ -56,6 +57,19 @@ function! C:toggleHeader()
         let v_newfile = substitute(v_fullname,'Inc','Src',"")
         let v_newfile = substitute(v_newfile,'.h$','.c',"")
         exe 'edit' v_newfile
+    endif
+endfunction
+
+"function that enables to have file tree and function list in a convenient split
+function! C:toggleTreeList()
+    if g:Tlist_Use_Split_Window == 0
+        let g:Tlist_Use_Split_Window = 1
+        let g:Tlist_WinWidth=20
+        NERDTree | TlistOpen
+        "autocmd VimEnter * NerdTree | TlistOpen
+    else
+        let g:Tlist_Use_Split_Window = 0
+        NERDTreeClose | TlistClose
     endif
 endfunction
 

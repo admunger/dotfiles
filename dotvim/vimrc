@@ -2,6 +2,8 @@ set nocompatible
 
 execute pathogen#infect()
 
+"========= GENERAL OPTIONS =========
+
 "Option to remove any traces in .viminfo
 set viminfo=/5,'0,:5,<0,@0,f0
 "            |  |  |  |  |  '-file marks 0-9,A-Z not saved               
@@ -12,12 +14,12 @@ set viminfo=/5,'0,:5,<0,@0,f0
 "            '-5 recent search history will be saved
 "        no % : buffer list not saved
 
-"General options for all files
 "ruler options
 set ruler
 set number
 set relativenumber
 set linebreak "backspace support
+"command mode completion
 set wildmenu
 set wildignore=*.pdf,*.png,*.eps,*.o
 "case-insensitive file completion
@@ -25,16 +27,19 @@ set wildignorecase
 set mouse=a
 " split configs
 set splitright
-"nnoremap <C-j> <C-W>j
-nnoremap <C-k> <C-W>k
-nnoremap <C-h> <C-W>w
-nnoremap <C-l> <C-W>l
-cnoreabbrev Q q
 
 set magic
 vmap C "+y
 set whichwrap+=<,>,[,]
 
+"Options for search features
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+syntax on
+
+"========= GUI/color configurations =========
 set t_Co=256 "256 colors
 "gvim configs
 if has('gui_running')
@@ -43,7 +48,7 @@ if has('gui_running')
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
 else
-    colorscheme munger2 "eldar elflord
+    colorscheme monokai-phoenix "eldar elflord
     "set to goldenrod for gray comments
 endif
 
@@ -52,6 +57,7 @@ if &diff
 endif
 
 "Code options
+"enable # vim: header in file
 set modeline
 set tabstop=4
 set shiftwidth=4
@@ -59,36 +65,17 @@ set shiftwidth=4
 set expandtab
 set clipboard=unnamedplus
 set cindent  "indent like C code
-
-"Options for search features
-set hlsearch
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-set incsearch
-set ignorecase
-set smartcase
-
 "Indentation for makefiles
 "set noet ci pi sts=0 sw=4 ts=4
+set iskeyword-=58 "colon
 
-"Remap NERDTree command
-:command NT NERDTree
 
 filetype plugin on
 filetype indent on
-syntax on
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
 
-let g:tex_flavor='latex'
+"set shell=/bin/bash\ -i
 
-
-"CSV parameters
-" NewDelimiter ; "changes the delimiter
-" let g:csv_delim=';'
-
-"statusline options
+"========= STATUS LINE CONFIGURATION =========
 set laststatus=2
 set statusline=   " clear the statusline for when vimrc is reloaded
 set statusline+=%-3.3n\                      " buffer number
@@ -102,6 +89,7 @@ set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
 set statusline+=%b,0x%-8B\                   " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"AIRLINE IS NOT USED FOR THE MOMENT
 "airline status-line
 "airline disabling switch
 let g:loaded_airline = 1
@@ -119,19 +107,60 @@ if g:loaded_airline
     let g:airline_theme='dark' " :AirlineTheme
 endif
 
-"set shell=/bin/bash\ -i
+
+"========= Shortcut mappings =========
+" Leader options
+let mapleader = "é"
+"maplocalleader -> leader for specific filetype
+
+"navigation between splits
+"nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+cnoreabbrev Q q
 inoremap <C-s> <C-o>:update<CR>
 nnoremap <C-s> :update<CR>
-set iskeyword-=58 "colon
 
-"EasyAlign plugin
-"nnoremap ga :EasyAlign<CR>
+"remove search highlight
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [Q :cfirst<CR>
 
 "cd to current buffer
 "autocmd BufEnter * silent! lcd %:p:h
 
+"========= PLUGINS GENERAL CONFIGURATIONS =========
+"Remap NERDTree command
+:command NT NERDTree
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
+
+"Tags options
+"Exuberant-ctags location
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
+let g:Tlist_Use_Split_Window=0
+
+"CSV parameters
+" NewDelimiter ; "changes the delimiter
+" let g:csv_delim=';'
+
+"EasyAlign plugin
+"nnoremap ga :EasyAlign<CR>
+
+"========= Filetype-specific configurations =========
+" start with all the folds open
+autocmd Syntax org,tex normal zR
+
 "disable auto-commenting
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 " vim -b : edit binary using xxd-format!
 augroup Binary
     au!
@@ -144,14 +173,3 @@ augroup Binary
     au BufWritePost *.bin set nomod | endif
 augroup END
 
-
-"Tags options
-"Exuberant-ctags location
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
-let g:Tlist_Use_Split_Window=0
-
-" Leader options
-let mapleader = "é"
-"nnoremap <leader>d dd
-
-"maplocalleader -> leader for specific filetype
