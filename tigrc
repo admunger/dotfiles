@@ -1,0 +1,28 @@
+#! vi:set syntax=bash
+#
+# Need tig version 2.2.2 or greater!
+
+set vertical-split = 0
+
+# line numbers
+set pager-view = line-number:yes,interval=5 text
+set line-graphics = default
+
+# display
+set main-view-date = custom
+set main-view-date-format = "%m-%d %H:%M"
+
+set line-graphics = yes
+set line-graphics = default
+
+set main-view = line-number, date, author, commit-title:graph=v1
+
+set split-view-height = 85%
+
+# navigation
+set horizontal-scroll = 20
+set ignore-case = 1
+
+# key bindings
+set mouse = true
+set mouse-scroll = 3

@@ -27,6 +27,8 @@ set wildignorecase
 set mouse=a
 " split configs
 set splitright
+"scrolling config
+set scrolloff=4
 
 set magic
 vmap C "+y
@@ -109,6 +111,9 @@ endif
 
 
 "========= Shortcut mappings =========
+"Fuck Ex mode
+nnoremap Q <nop>
+
 " Leader options
 let mapleader = "é"
 "maplocalleader -> leader for specific filetype
@@ -162,6 +167,8 @@ autocmd Syntax org,tex normal zR
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " vim -b : edit binary using xxd-format!
+" :%!xxd
+" :set ft=xxd
 augroup Binary
     au!
     au BufReadPre  *.bin let &bin=1
