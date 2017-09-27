@@ -9,20 +9,40 @@ set pager-view = line-number:yes,interval=5 text
 set line-graphics = default
 
 # display
-set main-view-date = custom
-set main-view-date-format = "%m-%d %H:%M"
-
-set line-graphics = yes
 set line-graphics = default
 
-set main-view = line-number, date, author, commit-title:graph=v1
+set main-view = line-number:yes,interval=5 \
+                date:custom,format="%m-%d_%H:%M" \
+                author:full,width=15 \
+                commit-title:graph=v1
+
+set diff-view = text:yes,commit-title-overflow=no
+
+set blame-view = line-number:yes,interval=10 \
+                 date:default \
+                 author:full \
+                 file-name:auto \
+                 id:yes,color \
+                 text
+
+set wrap-lines = true
 
 set split-view-height = 85%
 
 # navigation
-set horizontal-scroll = 20
+set horizontal-scroll = 30
 set ignore-case = 1
 
 # key bindings
 set mouse = true
 set mouse-scroll = 3
+
+bind generic h scroll-left
+bind generic l scroll-right
+bind generic H view-help 
+bind generic g move-first-line
+bind generic G move-last-line
+bind generic <Ctrl-F> move-page-down
+bind generic <Ctrl-B> move-page-up
+bind main <tab> view-log
+bind tree <tab> ?git log --graph --abbrev-commit %(file)
