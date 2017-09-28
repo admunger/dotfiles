@@ -11,22 +11,59 @@ colorscheme industry
 set number
 set relativenumber
 syntax on
-
-"Windows-specific configurations
-vmap C "+y
-imap <C-V> <C-O>"+p
-set whichwrap+=<,>,[,]
-set backspace=indent,eol,start
 set tabstop=4
 set shiftwidth=4
+set wildmenu
+set splitright
+
+" statusline setting
+set laststatus=2
+set statusline=   " clear the statusline for when vimrc is reloaded
+set statusline+=%-3.3n\                      " buffer number
+set statusline+=%f\                          " file name
+set statusline+=%h%m%r%w                     " flags
+set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
+set statusline+=\ %{strlen(&fenc)?&fenc:&enc}, " encoding
+set statusline+=\ %{&fileformat}]              " file format
+set statusline+=%=                           " right align
+set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+"set statusline+=%b,0x%-8B\                   " current char
+set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
+
+"Options for search features
+set hlsearch
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+set incsearch
+set ignorecase
+set smartcase
+
+"------- Windows-specific configurations -------
+"Set the copy/paste behaviour
+vmap C "+y
+imap <C-V> <C-O>"+p
+set clipboard=unnamed
+set whichwrap+=<,>,[,]
+set backspace=indent,eol,start
+
+"specify initial dimensions of the window
+set lines=34 columns=80
 
 if has("gui_running")
   if has("gui_win32")
     set guioptions-=T  "remove toolbar
-    set guifont=Consolas:h11:cANSI
+	set guioptions-=L  "no vertical-hand scrollbar in split
+	":set guifont=* to manually set font
+    "set guifont=Consolas:h11:cANSI
+	set guifont=Monospac821_BT:h10:cANSI
+	colorscheme monokai-phoenix
+
+	"set initial window position
+	winpos 0 0
+	winsize 80 40
   endif
 endif
 
+"vimdiff configuration (initial config)
 set diffexpr=MyDiff()
 function MyDiff()
   let opt = '-a --binary '

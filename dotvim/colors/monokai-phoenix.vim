@@ -65,6 +65,10 @@ hi PmenuThumb guifg=#778899 guibg=#778899 gui=NONE ctermfg=103 ctermbg=103 cterm
 hi Normal guifg=#F8F8F2 guibg=#111111 gui=NONE ctermfg=15 ctermbg=233 cterm=NONE
 hi Conceal guifg=#66D9EF guibg=#111111 gui=NONE ctermfg=81 ctermbg=233 cterm=NONE
 hi NonText guifg=#49483E guibg=NONE gui=NONE ctermfg=59 ctermbg=NONE cterm=NONE
+"put these on windows if you find problem with statusline
+"hi StatusLine guifg=#66D9EF guibg=darkgreen gui=NONE ctermfg=81 ctermbg=233 cterm=NONE
+"hi StatusLineNC guifg=#778899 guibg=darkgreen gui=NONE ctermfg=103 ctermbg=233 cterm=NONE
+
 hi StatusLine guifg=#66D9EF guibg=#111111 gui=NONE ctermfg=81 ctermbg=black cterm=NONE
 hi StatusLineNC guifg=#778899 guibg=#111111 gui=NONE ctermfg=103 ctermbg=black cterm=NONE
 hi Search guifg=#000000 guibg=#FFE972 gui=NONE ctermfg=00 ctermbg=221 cterm=NONE
@@ -116,7 +120,9 @@ hi CursorColumn guifg=NONE guibg=#383A3E gui=NONE ctermfg=NONE ctermbg=236 cterm
 hi CursorLine guifg=NONE guibg=#383A3E gui=NONE ctermfg=NONE ctermbg=236 cterm=NONE
 hi Cursor guifg=#111111 guibg=#F8F8F2 gui=NONE ctermfg=233 ctermbg=15 cterm=NONE
 hi Visual guifg=NONE guibg=#49483E gui=NONE ctermfg=NONE ctermfg=yellow ctermbg=NONE cterm=reverse
-hi MatchParen guifg=#111111 guibg=#E6DB74 gui=NONE ctermfg=233 ctermbg=185 cterm=NONE
+"updated to avoid bad contrast yellow-on-gray
+hi MatchParen ctermbg=yellow ctermfg=233_Grey7 cterm=reverse,undercurl
+"hi MatchParen guifg=#111111 guibg=#E6DB74 gui=NONE ctermfg=yellow ctermbg=233_Grey7 cterm=NONE
 
 if has("nvim")
 
