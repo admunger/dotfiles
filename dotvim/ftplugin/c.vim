@@ -16,6 +16,7 @@ nmap <silent> <C-K> :call C:prevLine()<CR>
 
 nmap <silent> <leader>h :call C:toggleHeader()<CR>
 nmap <silent> <leader>t :call C:toggleTreeList()<CR>
+vmap <silent> <leader>r :call C:wrapComment()<CR>
 "
 "echo a variable during debug : 
 "echo varName
@@ -48,15 +49,27 @@ function! C:toggleHeader()
     let v_ext = expand('%:e')
     let v_fullname = expand('%:.') "relative to home path
     if v_ext == 'c'
-        "substitute({expr}, {pat}, {sub}, {flags})
-        let v_newfile = substitute(v_fullname,'Src','Inc',"")
-        let v_newfile = substitute(v_newfile,'.c$','.h',"")
-        exe 'edit' v_newfile
+        "allows to use header in same folder as source
+        if  !empty(globpath('.','src/*.h'))
+            "substitute({expr}, {pat}, {sub}, {flags})
+            let v_newfile = substitute(v_fullname,'.c$','.h',"")
+        else
+            let v_newfile = substitute(v_fullname,'Src','Inc',"")
+            let v_newfile = substitute(v_newfile,'.c$','.h',"")
+        endif
     elseif v_ext == 'h'
         "substitute({expr}, {pat}, {sub}, {flags})
         let v_newfile = substitute(v_fullname,'Inc','Src',"")
         let v_newfile = substitute(v_newfile,'.h$','.c',"")
-        exe 'edit' v_newfile
+    endif
+    if bufexists(v_newfile) == 0
+        if filereadable(v_newfile) == 1
+            exe 'edit' v_newfile
+        else
+            echo "File " . v_newfile . " does not exist!"
+        endif
+    else
+        exe 'buffer' expand(v_newfile)
     endif
 endfunction
 
@@ -70,6 +83,22 @@ function! C:toggleTreeList()
     else
         let g:Tlist_Use_Split_Window = 0
         NERDTreeClose | TlistClose
+    endif
+endfunction
+
+function! C:wrapComment() range
+    "echo "firstline ".a:firstline." lastline ".a:lastline
+    if a:firstline == a:lastline
+        normal 0i//
+    else
+        execute "normal '<_i/* "
+        let a:iter = a:firstline
+        while a:iter < a:lastline
+            execute "normal j_i * "
+            let a:iter += 1
+        endwhile
+        normal '>_o*/
+        normal v'<=
     endif
 endfunction
 

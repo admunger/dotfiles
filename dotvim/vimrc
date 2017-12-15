@@ -27,8 +27,12 @@ set wildignorecase
 set mouse=a
 " split configs
 set splitright
+set splitbelow
 "scrolling config
 set scrolloff=4
+
+"stays in current column if possible with G/gg
+set nostartofline
 
 set magic
 vmap C "+y
@@ -39,6 +43,11 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+
+
+"These 2 filetypes BEFORE "syntax on"
+filetype plugin on
+filetype indent on
 syntax on
 
 "========= GUI/color configurations =========
@@ -49,6 +58,12 @@ if has('gui_running')
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
+
+    "specify initial dimensions of the window
+    set lines=50 columns=80
+    set guitablabel=%N\ %t
+elseif exists('$TMUX')
+    colorscheme munger2
 else
     colorscheme monokai-phoenix "eldar elflord
     "set to goldenrod for gray comments
@@ -72,23 +87,20 @@ set cindent  "indent like C code
 set iskeyword-=58 "colon
 
 
-filetype plugin on
-filetype indent on
-
 "set shell=/bin/bash\ -i
 
 "========= STATUS LINE CONFIGURATION =========
 set laststatus=2
 set statusline=   " clear the statusline for when vimrc is reloaded
 set statusline+=%-3.3n\                      " buffer number
-set statusline+=%f\                          " file name
+set statusline+=%t\                          " file name
 set statusline+=%h%m%r%w                     " flags
 set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
 set statusline+=\ %{strlen(&fenc)?&fenc:&enc}, " encoding
 set statusline+=\ %{&fileformat}]              " file format
 set statusline+=%=                           " right align
 set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
-set statusline+=%b,0x%-8B\                   " current char
+"set statusline+=%b,0x%-8B\                   " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 "AIRLINE IS NOT USED FOR THE MOMENT
@@ -136,6 +148,11 @@ nnoremap [Q :cfirst<CR>
 
 "cd to current buffer
 "autocmd BufEnter * silent! lcd %:p:h
+
+" restore Normal terminal background; black
+autocmd VimLeave * hi Normal ctermbg=016_Grey0
+"This is a troll to test
+"autocmd VimLeave * silent! !cowsay "Surprise\!\!\!" && read
 
 "========= PLUGINS GENERAL CONFIGURATIONS =========
 "Remap NERDTree command
