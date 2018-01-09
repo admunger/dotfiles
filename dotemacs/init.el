@@ -1,12 +1,14 @@
-; vi:syntax=lisp
 ;; Personnal configuration
 (load-file "~/.emacs.d/private.el")
+
+(server-start)
 
 ;; start directly in *scratch* buffer
 (setq inhibit-startup-screen t) 
 (setq read-file-name-completion-ignore-case t)
 (global-unset-key (kbd "<menu>"))
 
+;; start maximized
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -14,11 +16,22 @@
  ;; If there is more than one, they won't work right.
  '(TeX-brace-indent-level 4)
  '(TeX-newline-function (quote newline-and-indent))
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#ffffff" "#ff9da4" "#d1f1a9" "#ffeead" "#bbdaff" "#ebbbff" "#99ffff" "#003f8e"))
  '(auth-source-save-behavior nil)
- '(company-idle-delay 0.3))
- ;; start maximized
- '(initial-frame-alist (quote ((fullscreen . maximized)))))
+ '(company-idle-delay 0.3)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages
+   (quote
+	(org-wc use-package relative-line-numbers org-bullets matlab-mode ledger-mode helm evil-surround evil-search-highlight-persist evil-leader dash company-auctex color-theme-sanityinc-tomorrow color-theme-approximate color-theme autopair)))
+ '(vc-annotate-very-old-color nil))
 (global-set-key (kbd "C-h h") nil) 
+'(package-selected-packages
+   (quote
+	(auctex use-package relative-line-numbers org-bullets matlab-mode ledger-mode helm evil-search-highlight-persist evil-leader dash company-auctex color-theme-approximate autopair)))
+ '(tab-always-indent (quote complete))
  
 ;; access today's date
 (defun insert-current-date () (interactive)
@@ -39,14 +52,16 @@
 (setq evil-shift-width 4)
 (set 'evil-vsplit-window-right t)
 
-;; Color theme specification from color-theme-library
-(require 'color-theme)
-(color-theme-initialize)
-;;(color-theme-oswald) color-theme-euphoria
-(color-theme-calm-forest)
-;;(require 'color-theme-sanityinc-tomorrow)
-;;(load-theme 'sanityinc-tomorrow-bright t)
-;;;; (color-theme-sanityinc-tomorrow--define-theme bright)
+;; ;; Color theme specification from color-theme-library
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; ;;(color-theme-oswald) color-theme-euphoria
+;; (color-theme-calm-forest)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/colors")
+;;(require 'ample-theme)
+(load-theme 'ample t)
+(set-background-color "gray5")
 
 ;; this is to keep background in terminal
 ;; (defun on-after-init ()
@@ -128,32 +143,35 @@
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
 (setq TeX-save-query nil) ;;autosave before compiling
-(add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
-(setq ispell-dictionary "francais")
-;; (add-hook 'LaTeX-mode-hook (lambda () (define-key LaTex-mode-map (kbd "$") (kbd "C-u $"))))
+(add-hook 'tex-mode-hook (lambda () (setq ispell-parser 'tex)))
 ;; (add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
+(setq ispell-dictionary "francais")
 ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; or auto-fill mode
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 ;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex) will be done soon
 ;; (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
-;;(setq LaTeX-item-indent 4)
+(setq LaTeX-item-indent 4)
 (setq LaTeX-indent-level 4)
 ;; (TeX-global-PDF-mode t)
 (setq-default LaTeX-default-offset 4)
 (setq-default TeX-newline-function 'newline-and-indent)
 (setq-default indent-tabs-mode t) ; I want tabs. I like tabs
 (setq-default standard-indent 4) ; A tab is 4 spaces
+;; (setq-default TeX-brace-indent-level 4) swap of custom-var. if it changes nothing
 (setq-default tab-width 4) ; A tab is still 4 spaces... what's the difference to the above?
 
 ;; Company stuff
-(add-hook 'tex-mode-hook (lambda () 
+(add-hook 'tex-mode-hook (lambda ()
     (set (make-local-variable 'company-backends) '(company-auctex))))
+;; (add-hook 'TeX-mode-hook (lambda () 
 (require 'company-auctex)
 (company-auctex-init) 
+;;    (set (make-local-variable 'company-backends) '(company-auctex))
+;;    (company-mode t)))
 
-;; ;; Predictive stuff
+;; Predictive stuff
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/predictive/")
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/predictive/latex/")
 ;; (autoload 'predictive-mode "predictive" "predictive" t)
@@ -164,6 +182,7 @@
 ;;       predictive-use-auto-learn-cache nil
 ;;       predictive-which-dict t)
 ;; (require 'predictive)
+;; (add-hook 'LaTeX-mode-hook 'predictive-mode) ;; or auto-fill mode
 
 ;;;;set in scratch, set it if tabs went wild
 ;; (set 'tab-always-indent nil)
@@ -181,6 +200,8 @@
 ;; Helm Configuration
 (require 'helm)
 (require 'helm-config)
-;;(helm-mode 0)
+(helm-mode 0)
+(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
