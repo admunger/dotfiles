@@ -130,5 +130,7 @@ TEXMFHOME=/usr/share/texlive/texmf-dist
 # MANPATH=$MANPATH:/usr/local/texlive/2016
 # PATH=$TEXLIVE_HOME:$PATH
 
+# for emacs server config
+export ALTERNATE_EDITOR=""
 # allow Ctrl+s for VIM
 stty -ixon

@@ -1,22 +1,25 @@
 [global_config]
+  hide_tabbar = True
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  handle_size = 2
 [keybindings]
-  move_tab_right = <Ctrl><Shift>Tab
-  switch_to_tab_4 = <Alt>4
+  next_tab = <Ctrl><Shift>Tab
   switch_to_tab_5 = <Alt>5
-  move_tab_left = <Ctrl>Tab
+  switch_to_tab_4 = <Alt>4
   switch_to_tab_3 = <Alt>3
-  switch_to_tab_1 = <Alt>1
   switch_to_tab_2 = <Alt>2
+  switch_to_tab_1 = <Alt>1
 [profiles]
   [[default]]
     scrollbar_position = hidden
-    use_system_font = False
-    scrollback_lines = 2000
     background_image = None
-    foreground_color = "#00FF00"
+    scrollback_lines = 2000
+    use_system_font = False
+    foreground_color = "#00ff00"
     show_titlebar = False
     color_scheme = green_on_black
     font = Mono 10.5
+    scrollback_infinite = True
 [layouts]
   [[default]]
     [[[child1]]]

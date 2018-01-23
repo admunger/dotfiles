@@ -23,6 +23,12 @@
  '(auth-source-save-behavior nil)
  '(company-idle-delay 0.3)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(org-file-apps
+   (quote
+	((auto-mode . emacs)
+	 ("\\.mm\\'" . default)
+	 ("\\.x?html?\\'" . default)
+	 ("\\.pdf\\'" . "evince %s"))))
  '(package-selected-packages
    (quote
 	(org-wc use-package relative-line-numbers org-bullets matlab-mode ledger-mode helm evil-surround evil-search-highlight-persist evil-leader dash company-auctex color-theme-sanityinc-tomorrow color-theme-approximate color-theme autopair)))
@@ -34,9 +40,11 @@
  '(tab-always-indent (quote complete))
  
 ;; access today's date
-(defun insert-current-date () (interactive)
+(defun date-short () (interactive)
     (insert (shell-command-to-string "echo -n $(date +%Y/%m/%d)")))
-(global-set-key "\C-x\M-d" 'insert-current-date)
+(defun date-long () (interactive)
+    (insert (shell-command-to-string "echo -n $(date '+%B %_e, %Y')")))
+;;(global-set-key "\C-x\M-d" 'date-short)
 
 ;; hide useless toolbar
 (tool-bar-mode -1)

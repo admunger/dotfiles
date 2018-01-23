@@ -12,9 +12,9 @@ set line-graphics = default
 set line-graphics = default
 
 set main-view = line-number:yes,interval=5 \
-                date:custom,format="%m-%d_%H:%M" \
+                date:custom,format="%Y-%m-%d %Hh" \
                 author:full,width=15 \
-                commit-title:graph=v1
+                commit-title:graph=v1,refs=yes
 
 set diff-view = text:yes,commit-title-overflow=no
 
@@ -34,7 +34,7 @@ set horizontal-scroll = 30
 set ignore-case = 1
 
 # key bindings
-set mouse = true
+set mouse = false
 set mouse-scroll = 3
 
 bind generic h scroll-left
