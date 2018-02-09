@@ -8,6 +8,9 @@
 (setq read-file-name-completion-ignore-case t)
 (global-unset-key (kbd "<menu>"))
 
+;; set default font
+(add-to-list 'default-frame-alist '(font . "WenQuanYi Micro Hei Mono-10"))
+
 ;; start maximized
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -31,7 +34,7 @@
 	 ("\\.pdf\\'" . "evince %s"))))
  '(package-selected-packages
    (quote
-	(org-wc use-package relative-line-numbers org-bullets matlab-mode ledger-mode helm evil-surround evil-search-highlight-persist evil-leader dash company-auctex color-theme-sanityinc-tomorrow color-theme-approximate color-theme autopair)))
+	(yasnippet-snippets yasnippet org-wc use-package relative-line-numbers org-bullets matlab-mode ledger-mode helm evil-surround evil-search-highlight-persist evil-leader dash company-auctex color-theme-sanityinc-tomorrow color-theme-approximate color-theme autopair)))
  '(vc-annotate-very-old-color nil))
 (global-set-key (kbd "C-h h") nil) 
 '(package-selected-packages
@@ -172,7 +175,7 @@
 
 ;; Company stuff
 (add-hook 'tex-mode-hook (lambda ()
-    (set (make-local-variable 'company-backends) '(company-auctex))))
+    (set (make-local-variable 'company-backends) '(company-auctex company-files))))
 ;; (add-hook 'TeX-mode-hook (lambda () 
 (require 'company-auctex)
 (company-auctex-init) 
@@ -213,3 +216,13 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
+;; MATLAB configuration
+(setq matlab-shell-command "~/Applications/Matlab/R2017b/bin/matlab")
+(setq matlab-shell-command-switches (list "-nodesktop"))
+
+;; YASNIPPET configuration
+(require 'yasnippet)
+(yas-global-mode 1)
+; avoid conflict with LaTeX-mode's keymaps
+(define-key yas-minor-mode-map (kbd "C-c & C-s") nil)
+(define-key yas-minor-mode-map (kbd "C-c C-s") 'yas-insert-snippet)
