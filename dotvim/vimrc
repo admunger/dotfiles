@@ -123,6 +123,14 @@ endif
 
 
 "========= Shortcut mappings =========
+"Map arrow keys to visible lines (editing text)
+nnoremap <up> gk
+nnoremap <down> gj
+inoremap <up> <C-o>gk
+inoremap <down> <C-o>gj
+vnoremap <up> gk
+vnoremap <down> gj
+
 "Fuck Ex mode
 nnoremap Q <nop>
 

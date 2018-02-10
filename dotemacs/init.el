@@ -52,6 +52,9 @@
 ;; hide useless toolbar
 (tool-bar-mode -1)
 
+;; undo split configurations with C-c left|right
+(winner-mode 1)
+
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -93,6 +96,10 @@
 (setq relative-line-numbers-motion-function 'forward-line)
 (setq relative-line-numbers-max-count 60)
 ;;(global-linum-mode 1) ;; line numbers
+(define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
+(define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
+(define-key evil-visual-state-map (kbd "<up>") 'evil-previous-visual-line)
+(define-key evil-visual-state-map (kbd "<down>") 'evil-next-visual-line)
 
 ;; set pretty cursors for every mode
 (setq evil-normal-state-cursor '("cyan" box))
@@ -216,9 +223,14 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
+;; Dired configuration
+(ranger-override-dired-mode t)
+(setq ranger-hide-cursor nil)
+
 ;; MATLAB configuration
 (setq matlab-shell-command "~/Applications/Matlab/R2017b/bin/matlab")
 (setq matlab-shell-command-switches (list "-nodesktop"))
+(setq matlab-comment-region-s "% ")
 
 ;; YASNIPPET configuration
 (require 'yasnippet)
