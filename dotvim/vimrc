@@ -143,6 +143,8 @@ let mapleader = "é"
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 cnoreabbrev Q q
+cnoreabbrev Wq wq
+cnoreabbrev Ed ed
 inoremap <C-s> <C-o>:update<CR>
 nnoremap <C-s> :update<CR>
 

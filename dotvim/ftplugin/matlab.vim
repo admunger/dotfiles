@@ -21,11 +21,40 @@ vmap <silent> <C-k> ?^%%<space><CR>
 "jump to next instruction line
 nmap <silent> J :call search('^[ \t]*\w','W',line('$'))<CR>
 nmap <silent> K :call search('^[ \t]*\w','bW',line('0'))<CR>
-vmap <silent> J /^[ \t]*\w<CR>
-vmap <silent> K ?^[ \t]*\w<CR>
+vmap <silent> J :call M:v_nextLine()<CR>
+vmap <silent> K :call M:v_prevLine()<CR>
 
 "stores selection in a scratch file
 vmap <leader>q :w! scratch_.m<CR>gv<ESC>
+
+" store yank in tmux buffer, for easier copy/paste
+vmap <silent> <leader>y :Tyank<CR>:Tmux last-pane \; paste-buffer<CR>
+
+" jumps to the next instruction in visual mode
+function! M:v_nextLine() range
+    "visual 0j
+    " line starting with (space OR tab), one or many times, followed
+    "   by a word (\w), goto end of match 'e', don't Wrap 'W'
+    normal gvj
+    let v_next = search('^[ \t]*\w','eWc')
+    echo v_next
+    call setpos('.',v_next)
+    "mark y
+    "normal '<v'y
+endfunction
+
+" jumps to the previous instruction in visual mode
+function! M:v_prevLine() range
+    "visual 0j
+    " line starting with (space OR tab), one or many times, followed
+    "   by a word (\w), goto end of match 'e', don't Wrap 'W'
+    normal gvk
+    let v_next = search('^[ \t]*\w','bWc')
+    echo v_next
+    call setpos('.',v_next)
+    "mark y
+    "normal '<v'y
+endfunction
 
 "simple function to auto-comment selected lines
 function! M:wrapComment() range
