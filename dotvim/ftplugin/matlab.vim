@@ -24,6 +24,9 @@ nmap <silent> K :call search('^[ \t]*\w','bW',line('0'))<CR>
 vmap <silent> J :call M:v_nextLine()<CR>
 vmap <silent> K :call M:v_prevLine()<CR>
 
+imap <C-D> <Esc>:call M:toggleComment()<CR>a
+" imap <C-D> <Esc>mrI% <Esc>`rlla
+
 "stores selection in a scratch file
 vmap <leader>q :w! scratch_.m<CR>gv<ESC>
 
@@ -101,8 +104,10 @@ function! M:toggleComment()
     "if first nonblank character is a comment
     if a_char == '%'
         call M:unwrapComment()
+        normal hh
     else
         call M:wrapComment()
+        normal ll
     end
 endfunction
 
