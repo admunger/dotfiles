@@ -4,17 +4,23 @@
 [push]
 	default = simple
 [pager]
-    #diff = "vim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c 'normal gg' -" 
-    show =  "vim -c 'set ft=diff' -c 'normal gg' -" 
+    show = "vim -c 'setlocal buftype=nofile' -"
+[color]
+    # allows to git show in vim
+    ui = false
+    # coloring is true for git status
+    status = true
 [diff]
     tool = vimdiff
 #[difftool]
 #    prompt = false
 [merge]
     tool = vimdiff
-[http]
-    sslVerify=false
+[rebase]
+    tool = vimdiff
 [core]
 	editor = vim
+[alias]
+    wdiff = diff --color-words
 [add]
     default = ignore-removal

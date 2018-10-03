@@ -64,6 +64,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 (setq evil-shift-width 4)
+(set 'evil-split-window-below t)
 (set 'evil-vsplit-window-right t)
 
 ;; ;; Color theme specification from color-theme-library
@@ -88,6 +89,10 @@
 
 ;;;; Vim environment mappings
 (setq evil-want-C-u-scroll t)
+(setq scroll-margin 2) ;; vim scrolloff equivalent
+
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+
 (require 'evil)
 (evil-mode 1)
 (global-relative-line-numbers-mode)
@@ -100,6 +105,8 @@
 (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
 (define-key evil-visual-state-map (kbd "<up>") 'evil-previous-visual-line)
 (define-key evil-visual-state-map (kbd "<down>") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "\C-n") 'next-line)
+(define-key evil-normal-state-map (kbd "\C-p") 'previous-line)
 
 ;; set pretty cursors for every mode
 (setq evil-normal-state-cursor '("cyan" box))
@@ -138,6 +145,11 @@
       (visual-line-mode t)))
 ;; 	    (org-bullets-mode t)))
 (setq org-hide-leading-stars t)
+;; Change timestamp format
+(custom-set-variables
+    '(org-time-stamp-custom-formats (quote ("<%a %B %d,%Y >" . "<%d %m %Y  %a [%H:%M]>")))) 
+(setq org-display-custom-times t)
+  ;;(org-translate-time "<2014-04-29 Tu.>"))
 
 ;; Makefile highlights
 (require 'make-mode)
@@ -163,6 +175,8 @@
 (setq TeX-save-query nil) ;;autosave before compiling
 (add-hook 'tex-mode-hook (lambda () (setq ispell-parser 'tex)))
 ;; (add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1)))
+(add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; or auto-fill mode
+;; (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode) ;; allows `a = \alpha
 (setq ispell-dictionary "francais")
 ;; (add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; or auto-fill mode
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -184,11 +198,19 @@
 (add-hook 'tex-mode-hook (lambda ()
     (set (make-local-variable 'company-backends) '(company-auctex company-files))))
 ;; (add-hook 'TeX-mode-hook (lambda () 
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
 (require 'company-auctex)
 (company-auctex-init) 
 ;;    (set (make-local-variable 'company-backends) '(company-auctex))
 ;;    (company-mode t)))
 
+
+;; avoid changing font for exponent and indices
+(custom-set-faces
+ '(font-latex-subscript-face ((t nil)))
+ '(font-latex-superscript-face ((t nil)))
+ )
 ;; Predictive stuff
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/predictive/")
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/predictive/latex/")
