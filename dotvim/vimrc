@@ -161,6 +161,8 @@ nnoremap [Q :cfirst<CR>
 
 " restore Normal terminal background; black
 autocmd VimLeave * hi Normal ctermbg=016_Grey0
+"wrap long lines during diff
+autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 "This is a troll to test
 "autocmd VimLeave * silent! !cowsay "Surprise\!\!\!" && read
 
@@ -189,6 +191,8 @@ let g:Tlist_Use_Split_Window=0
 "========= Filetype-specific configurations =========
 " start with all the folds open
 autocmd Syntax org,tex normal zR
+let asmsyntax='armasm'
+let filetype_inc='armasm'
 
 "disable auto-commenting
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o

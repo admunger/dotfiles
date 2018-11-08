@@ -64,8 +64,14 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 (setq evil-shift-width 4)
-(set 'evil-split-window-below t)
 (set 'evil-vsplit-window-right t)
+(set 'evil-split-window-below t)
+
+; scrolling behaving like vim
+(setq scroll-step            1
+      scroll-conservatively  10000)
+
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
 ;; ;; Color theme specification from color-theme-library
 ;; (require 'color-theme)
@@ -90,8 +96,6 @@
 ;;;; Vim environment mappings
 (setq evil-want-C-u-scroll t)
 (setq scroll-margin 2) ;; vim scrolloff equivalent
-
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
 (require 'evil)
 (evil-mode 1)
@@ -198,6 +202,8 @@
 (add-hook 'tex-mode-hook (lambda ()
     (set (make-local-variable 'company-backends) '(company-auctex company-files))))
 ;; (add-hook 'TeX-mode-hook (lambda () 
+;; switch to document sections using C-c =
+(require 'reftex)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 (require 'company-auctex)
@@ -244,6 +250,8 @@
 (define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(setq helm-ff-skip-boring-files t)
+(setq helm-boring-file-regexp-list '("\\.aux$"))
 
 ;; Dired configuration
 (ranger-override-dired-mode t)
