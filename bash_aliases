@@ -10,7 +10,7 @@ RANGER_OUTPUT="$HOME/.config/ranger/rangercd"
 alias xd='xdg-open'
 alias logout='gnome-session-quit'
 alias naut='nautilus . & xdotool search --onlyvisible --class nautilus windowactivate'
-alias foxit='FoxitReader &> /dev/null'
+alias tmux='tmux -3'
 
 # Command with default parameters/behaviour
 alias rm='rm -v -I'
@@ -30,6 +30,16 @@ alias ranger='ranger --choosedir=$RANGER_OUTPUT && cd "$(cat $RANGER_OUTPUT)"'
 alias ranger_cd='cd "$(cat $RANGER_OUTPUT)"'
 alias update_upgrade="sudo apt-get update && sudo apt-get upgrade -y"
 alias Date="date +%Y/%m/%d"
-
+alias psgrep="ps aux | grep -i "
+alias bluestart="sudo service bluetooth restart"
 # Command redirections
 alias evince='evince &>/dev/null'
+# matlab stuff
+alias tmatlab="matlab -nodesktop -nosplash"
+alias matlab_soft="matlab -softwareopengl"
+
+# allows to specify a pdf name and avoid polluting terminal
+foxit()
+{
+    ~/Applications/foxitsoftware/foxitreader/FoxitReader $1 &> /dev/null
+}
