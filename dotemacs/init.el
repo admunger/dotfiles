@@ -32,6 +32,7 @@
 	 ("\\.mm\\'" . default)
 	 ("\\.x?html?\\'" . default)
 	 ("\\.pdf\\'" . "evince %s"))))
+ '(org-time-stamp-custom-formats (quote ("<%a %B %d,%Y >" . "<%d %m %Y  %a [%H:%M]>")))
  '(package-selected-packages
    (quote
 	(yasnippet-snippets yasnippet org-wc use-package relative-line-numbers org-bullets matlab-mode ledger-mode helm evil-surround evil-search-highlight-persist evil-leader dash company-auctex color-theme-sanityinc-tomorrow color-theme-approximate color-theme autopair)))
@@ -127,7 +128,8 @@
 ;; (setq evil-magit-state 'motion)
 ;; (require 'evil-magit)
 
-(evil-set-initial-state 'shell-mode 'emacs)
+(evil-set-initial-state 'shell-mode 'emacs) ;; bad one
+(evil-set-initial-state 'eshell-mode 'emacs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -268,3 +270,22 @@
 ; avoid conflict with LaTeX-mode's keymaps
 (define-key yas-minor-mode-map (kbd "C-c & C-s") nil)
 (define-key yas-minor-mode-map (kbd "C-c C-s") 'yas-insert-snippet)
+
+;; C/C++ configuration
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (define-key c-mode-base-map (kbd "C-c ;") 'comment-or-uncomment-region)))
+
+;; ido-mode, fuzzy buffer finder
+(defvar ido-dont-ignore-buffer-names '("*grep*" "*Scratch" "Messages"))
+
+(defun ido-ignore-most-star-buffers (name)
+  (and
+   (string-match-p "^*" name)
+   (not (member name ido-dont-ignore-buffer-names))))
+
+(setq ido-ignore-buffers (list "\\` " #'ido-ignore-most-star-buffers))
+(ido-mode 1)

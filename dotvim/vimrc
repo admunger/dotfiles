@@ -21,6 +21,7 @@ set relativenumber
 set linebreak "backspace support
 "command mode completion
 set wildmenu
+set wildmode=longest,full
 set wildignore=*.pdf,*.png,*.eps,*.o
 "case-insensitive file completion
 set wildignorecase
@@ -63,7 +64,7 @@ if has('gui_running')
     set lines=50 columns=80
     set guitablabel=%N\ %t
 elseif exists('$TMUX')
-    colorscheme munger2
+    colorscheme monokai-phoenix "munger2
 else
     colorscheme monokai-phoenix "eldar elflord
     "set to goldenrod for gray comments
@@ -145,6 +146,8 @@ nnoremap <C-l> <C-W>l
 cnoreabbrev Q q
 cnoreabbrev Wq wq
 cnoreabbrev Ed ed
+cnoreabbrev ta tabnew
+
 inoremap <C-s> <C-o>:update<CR>
 nnoremap <C-s> :update<CR>
 
@@ -161,7 +164,6 @@ nnoremap [Q :cfirst<CR>
 
 " restore Normal terminal background; black
 autocmd VimLeave * hi Normal ctermbg=016_Grey0
-"wrap long lines during diff
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 "This is a troll to test
 "autocmd VimLeave * silent! !cowsay "Surprise\!\!\!" && read
