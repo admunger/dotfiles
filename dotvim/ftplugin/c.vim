@@ -11,12 +11,25 @@ let g:c_ftplugin_loaded = 1
 
 "KEY MAPPINGS
 "jump to next line containing an executable line
-nmap <silent> <C-J> :call C:nextLine()<CR>
-nmap <silent> <C-K> :call C:prevLine()<CR>
+"nmap <silent> <C-J> :call C:nextLine()<CR>
+"nmap <silent> <C-K> :call C:prevLine()<CR>
 
-nmap <silent> <leader>h :call C:toggleHeader()<CR>
-nmap <silent> <leader>t :call C:toggleTreeList()<CR>
-vmap <silent> <leader>r :call C:wrapComment()<CR>
+nmap <silent> <leader>h :call C_toggleHeader()<CR>
+"nmap <silent> <leader>t :call C_toggleTreeList()<CR>
+
+inoremap {<CR> {<CR>}<Esc>ko
+"inoremap [ []<Esc>i
+"inoremap ( ()<Esc>i
+
+
+"requires Tbone. Thanks tpope for all your magic
+if exists('$TMUX')
+   "send make command to last terminal (last-pane = ":.-")
+   nmap <silent> <C-b> :Tmux send-keys -t :.- \"make\" Enter<CR>
+   nmap <silent> <F5>  :Tmux send-keys -t :.- \"./main\" Enter<CR>
+endif
+
+"nmap <silent> <C-B> :make
 "
 "echo a variable during debug : 
 "echo varName
@@ -45,7 +58,7 @@ endfunction
 "one liners that toggle from header to source : 
 ":e %:r.cpp
 ":e %<.cpp
-function! C:toggleHeader()
+function! C_toggleHeader()
     let v_ext = expand('%:e')
     let v_fullname = expand('%:.') "relative to home path
     if v_ext == 'c'
@@ -83,22 +96,6 @@ function! C:toggleTreeList()
     else
         let g:Tlist_Use_Split_Window = 0
         NERDTreeClose | TlistClose
-    endif
-endfunction
-
-function! C:wrapComment() range
-    "echo "firstline ".a:firstline." lastline ".a:lastline
-    if a:firstline == a:lastline
-        normal 0i//
-    else
-        execute "normal '<_i/* "
-        let a:iter = a:firstline
-        while a:iter < a:lastline
-            execute "normal j_i * "
-            let a:iter += 1
-        endwhile
-        normal '>_o*/
-        normal v'<=
     endif
 endfunction
 

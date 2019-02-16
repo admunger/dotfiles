@@ -47,8 +47,7 @@ set smartcase
 
 
 "These 2 filetypes BEFORE "syntax on"
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 syntax on
 
 "========= GUI/color configurations =========
