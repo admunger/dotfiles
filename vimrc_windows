@@ -1,22 +1,42 @@
+" cp ./vimrc_windows /cygdrive/c/Program\ Files\ \(x86\)/Vim/
 set langmenu=en_US
 
 "source $VIMRUNTIME/vimrc_example.vim
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
+"
+""Option to remove any traces in .viminfo
+set viminfo=/5,'0,:5,<0,@0,f0
+"            |  |  |  |  |  '-file marks 0-9,A-Z not saved               
+"            |  |  |  |  '-input-line history not saved
+"            |  |  |  '-registers not saved
+"            |  |  '-5 last command-line history saved
+"            |  '-file marks not saved
+"            '-5 recent search history will be saved
+"        no % : buffer list not saved
 
 "Minimal shared configuration
 set nocompatible
 set swapfile
-colorscheme industry
 set number
 set relativenumber
 syntax on
+filetype plugin indent on
+
 set tabstop=4
 set shiftwidth=4
-set wildmenu
-set splitright
+set smarttab  
+set smartindent "continue where indentation is
+set expandtab "spaces instead of tabs
 
-" statusline setting
+"menu complete
+set wildmenu
+set wildignorecase
+
+set splitright
+set splitbelow
+
+"############ STATUSLINE SETTINGS ############
 set laststatus=2
 set statusline=   " clear the statusline for when vimrc is reloaded
 set statusline+=%-3.3n\                      " buffer number
@@ -34,34 +54,121 @@ set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 set incsearch
+
 set ignorecase
 set smartcase
 
-"------- Windows-specific configurations -------
-"Set the copy/paste behaviour
-vmap C "+y
-imap <C-V> <C-O>"+p
-set clipboard=unnamed
+"----- NAVIGATION -----
+if has('mouse')
+    set mouse=a
+    set ttymouse=xterm2
+endif
+set scrolloff=4
+set foldlevelstart=99
 set whichwrap+=<,>,[,]
 set backspace=indent,eol,start
+set nostartofline "stays in current column if possible with G/gg
+set linebreak
+
+set clipboard=unnamed
+
+"######### OPTIONS FOR GVIM #########
+if has("gui_running")
+    if has("gui_win32")
+        " behave mswin
+
+        " forced to put this, as Windows CMD use default UTF-8
+        set termencoding=utf-8 
+        set encoding=utf-8
+        set fileencodings=utf8,cp1251
+
+        set guioptions-=T  "remove toolbar
+        set guioptions-=L  "no vertical-hand scrollbar in split
+
+        ":set guifont=* to manually set font
+        set guifont=Consolas:h10:cANSI "Monospac821_BT:h10:cANSI
+
+        colorscheme monokai-phoenix
+
+        " always open in a tab
+        " the next command break the :help command
+"         autocmd BufReadPost * tab ball
+
+        "set initial window position
+        winpos 0 0
+        winsize 100 50 " width,height
+    endif
+elseif &diff
+    colorscheme industry
+else
+    colorscheme desert2 "industry
+endif
+
+"############ SHORTCUTS AND REMAPS ############
+
+"----- SET LEADER -----
+let mapleader = "é"
+"maplocalleader -> leader for specific filetypes
+
+"Fuck Ex mode
+nnoremap Q <nop>
+
+"Common save and copy operations
+nmap <C-s> :update<CR>
+imap <C-s> <C-o>:update<CR>
+"Set the copy/paste behaviour
+vmap C "+y
+" imap <C-V> <C-O>"+p
+
+"map! <Esc>[5D <C-Left>
+nnoremap <C-Left> b
+
+"navigate through vimgrep/cscope search
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [Q :cfirst<CR>
+
+" shortcuts for common commands
+cnoreabbrev Q q
+cnoreabbrev W w
+cnoreabbrev Qa qa
+cnoreabbrev Wq wq
+cnoreabbrev Ed ed
+cnoreabbrev ta tabnew
+cnoreabbrev NT NERDTree
+
+" count number of result of last search ("/" register)
+nmap <leader><Space> :%s_<C-r>/__gn<CR>
+
+
+"############ PLUGIN CONFIGURATIONS ############
+
+"NERDTree configuration
+let NERDTreeIgnore = ['\.dll$','\.pdb$','\.suo$','\.sdf$']
+let NERDTreeWinSize=40
+
+"Tags options
+"Exuberant-ctags location
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
+" let g:Tlist_Use_Split_Window=0
+" let g:Tlist_Use_Horiz_Window=1
+
+
+" " sets the Comment string to each filetype at load
+" autocmd BufReadPost,BufNewFile * let b:bufComment = FT_getComment()
+"disable auto-commenting
+autocmd Filetype * set formatoptions-=c formatoptions-=r formatoptions-=o
+
+
+"####### Windows-specific configurations #######
+"###############################################
+
+"avoid resizing when called from cygwin
+"set noequalalways
 
 "specify initial dimensions of the window
-set lines=34 columns=80
-
-if has("gui_running")
-  if has("gui_win32")
-    set guioptions-=T  "remove toolbar
-	set guioptions-=L  "no vertical-hand scrollbar in split
-	":set guifont=* to manually set font
-    "set guifont=Consolas:h11:cANSI
-	set guifont=Monospac821_BT:h10:cANSI
-	colorscheme monokai-phoenix
-
-	"set initial window position
-	winpos 0 0
-	winsize 80 40
-  endif
-endif
+"set lines=34 columns=80
 
 "vimdiff configuration (initial config)
 set diffexpr=MyDiff()

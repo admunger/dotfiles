@@ -60,29 +60,24 @@ endfunction
 ":e %<.cpp
 function! C_toggleHeader()
     let v_ext = expand('%:e')
-    let v_fullname = expand('%:.') "relative to home path
-    if v_ext == 'c'
-        "allows to use header in same folder as source
-        if  !empty(globpath('.','src/*.h'))
-            "substitute({expr}, {pat}, {sub}, {flags})
-            let v_newfile = substitute(v_fullname,'.c$','.h',"")
-        else
-            let v_newfile = substitute(v_fullname,'Src','Inc',"")
-            let v_newfile = substitute(v_newfile,'.c$','.h',"")
-        endif
-    elseif v_ext == 'h'
-        "substitute({expr}, {pat}, {sub}, {flags})
-        let v_newfile = substitute(v_fullname,'Inc','Src',"")
-        let v_newfile = substitute(v_newfile,'.h$','.c',"")
-    endif
-    if bufexists(v_newfile) == 0
-        if filereadable(v_newfile) == 1
-            exe 'edit' v_newfile
-        else
-            echo "File " . v_newfile . " does not exist!"
-        endif
+    let v_name = expand('%:t') " only the filename
+    let v_noext = expand('%:t:r')
+"     let v_fullname = expand('%:.')
+    if v_ext != 'h'
+        " locate source file 
+        let v_regex = v_noext . ".h*"
+        let v_newfile = v_noext . ".h"
     else
-        exe 'buffer' expand(v_newfile)
+        let v_regex = v_noext . ".c[cxp]*"
+        let v_newfile = v_noext . ".cxx"
+    endif
+
+    " check if we need to use tag
+    if bufexists(v_newfile) == 0
+"         exec 'tag ' . v_regex 
+        exec 'tag ' . v_newfile
+    else
+        exe 'buffer ' expand(v_newfile)
     endif
 endfunction
 

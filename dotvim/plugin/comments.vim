@@ -1,9 +1,9 @@
 " Author:   Adriel Munger
-" Version:  0.1
+" Version:  0.2
 " Date:     16/02/2019
 " Description: 
 "   Add simple commenting features to Vim
-"   the string "g:CommentStr" is stored in filetype.vim for each specific file
+"   the string "b:bufComment" is stored in filetype.vim for each specific file
 "   can comment, uncomment, and toggle lines in file
 "
 " highly inspired by : 
@@ -18,6 +18,12 @@ if exists("g:comm_plugin_loaded")
 endif
 let g:comm_plugin_loaded = 1
 
+" sets the Comment string to each filetype at load
+autocmd BufReadPost,BufNewFile * let b:bufComment = FT_getComment()
+
+" autocmd BufReadPost,BufNewFile *.* let b:bufComment = FT_getComment()
+
+" let b:buffComm = b:bufComment
 let g:comment_length = strlen(CommentStr)
 
 nmap <silent> <leader>r :call FT_CommentLines()<CR>
@@ -32,12 +38,16 @@ function! FT_CommentLines() range
     if a:firstline == a:lastline
         "substitute function with '@' being the separators
         " '.' concatenate parameters of exe
-        " g:CommentStr is defined in filetype.vim
-        exe ":s@^@".g:CommentStr."@g"
+        " b:bufComment is defined with FT_getComment
+        exe ":s@^@".b:bufComment." @g"
     else
         "specify substitute within range
-        exe "'<,'>s@^@".g:CommentStr."@g"
+        exe "'<,'>s@^@".b:bufComment." @g"
     endif
+    " we add 1 to include the space width
+    let a_cur[2] += strlen(b:bufComment) + 1
+"     echo a_cur
+    call setpos('.',a_cur)
 
   " for multiline support : 
   "exe ":s@$@".g:EndComment."@g"
@@ -46,13 +56,22 @@ endfunction
 function! FT_UncommentLines() range
   "substitute function with '@' being the separators
   " '.' concatenate parameters of exe
-  " g:CommentStr is defined in filetype.vim
+  " b:bufComment is defined with FT_getComment
+    let a_cur = getpos('.')
     if a:firstline == a:lastline 
-        exe ":s@^".g:CommentStr."@@g"
+        exe ":s@^".b:bufComment."@@g"
+		" this allows to remove the space after comment symbol
+		normal V=
     else
         "specify substitute within range
-        exe ":'<,'>s@^".g:CommentStr."@@g"
+        exe ":'<,'>s@^".b:bufComment."@@g"
+		" this allows to remove the space after comment symbol
+		normal '<V'>=
     endif
+    " we sub 1 to include the space width
+    let a_cur[2] -= strlen(b:bufComment) + 1
+"     echo a_cur
+    call setpos('.',a_cur)
 endfunction
 
 function! FT_check_if_comment()
@@ -60,7 +79,7 @@ function! FT_check_if_comment()
     let a:len = g:comment_length
     let a:it = 0
     while a:it < a:len
-        if g:CommentStr[a:it] != getline('.')[a:it]
+        if b:bufComment[a:it] != getline('.')[a:it]
             echo "line is not commented"
             return 0
         endif
@@ -78,6 +97,23 @@ function! FT_toggleComment()
         call FT_UncommentLines()
     elseif a:check == 0
         call FT_CommentLines()
+"         normal a 
     endif
+endfunction
+
+" sets the variable b:bufComment specific to each buffer
+function! FT_getComment()
+    let a:comment = "#"
+    let a:ft = &ft
+
+    if     a:ft == 'vim'      | let a:comment = "\""
+    elseif a:ft == 'c'        | let a:comment = "//"
+    elseif a:ft == 'cpp'      | let a:comment = "//"
+    elseif a:ft == 'lisp'     | let a:comment = ";;"
+    elseif a:ft == 'matlab'   | let a:comment = "%"
+    elseif a:ft == 'dosbatch' | let a:comment = "::"
+    endif
+
+    return a:comment
 endfunction
 
