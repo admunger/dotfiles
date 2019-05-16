@@ -14,26 +14,30 @@ set viminfo=/5,'0,:5,<0,@0,f0
 "            '-5 recent search history will be saved
 "        no % : buffer list not saved
 
+set swapfile
 "ruler options
 set ruler
 set number
 set relativenumber
 set linebreak "backspace support
 "command mode completion
+scriptencoding utf-8 "else listchars command would throw an error
+set list
+" view tabs in the file
+set listchars=tab:→\ 
+
+
+"menu complete
 set wildmenu
 set wildmode=longest,full
 set wildignore=*.pdf,*.png,*.eps,*.o
 "case-insensitive file completion
 set wildignorecase
-set mouse=a
+
 " split configs
 set splitright
 set splitbelow
-"scrolling config
-set scrolloff=4
 
-"stays in current column if possible with G/gg
-set nostartofline
 
 set magic
 vmap C "+y
@@ -45,6 +49,15 @@ set incsearch
 set ignorecase
 set smartcase
 
+"----- NAVIGATION -----
+if has('mouse')
+    set mouse=a
+    set ttymouse=xterm2
+    map <ScrollWheelUp>   5<C-Y>
+    map <ScrollWheelDown> 5<C-E>
+endif
+set scrolloff=4
+set nostartofline "stays in current column if possible with G/gg
 
 "These 2 filetypes BEFORE "syntax on"
 filetype plugin indent on
@@ -123,6 +136,10 @@ endif
 
 
 "========= Shortcut mappings =========
+"----- SET LEADER -----
+let mapleader="é"
+"maplocalleader -> leader for specific filetype
+
 "Map arrow keys to visible lines (editing text)
 nnoremap <up> gk
 nnoremap <down> gj
@@ -134,18 +151,11 @@ vnoremap <down> gj
 "Fuck Ex mode
 nnoremap Q <nop>
 
-" Leader options
-let mapleader = "é"
-"maplocalleader -> leader for specific filetype
 
 "navigation between splits
 "nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
-cnoreabbrev Q q
-cnoreabbrev Wq wq
-cnoreabbrev Ed ed
-cnoreabbrev ta tabnew
 
 inoremap <C-s> <C-o>:update<CR>
 nnoremap <C-s> :update<CR>
@@ -153,13 +163,27 @@ nnoremap <C-s> :update<CR>
 "remove search highlight
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
+" recursively search pattern under cursor within directory
+nmap <leader>/ :vimgrep /\<<C-R><C-W>\>/g **/*.\(cxx\\\|h\)
+
+"navigate through vimgrep/cscope search
+set cscopequickfix=s+
 nnoremap ]q :cnext<CR>
 nnoremap [q :cprevious<CR>
 nnoremap ]Q :clast<CR>
 nnoremap [Q :cfirst<CR>
 
-"cd to current buffer
-"autocmd BufEnter * silent! lcd %:p:h
+" shortcuts for common commands
+cnoreabbrev Q q
+cnoreabbrev W w
+cnoreabbrev Qa qa
+cnoreabbrev Wq wq
+cnoreabbrev Ed ed
+cnoreabbrev ta tabnew
+cnoreabbrev NT call NT()
+
+" count number of result of last search ("/" register)
+nmap <leader><Space> :%s@<C-r>/@@gn<CR>
 
 " restore Normal terminal background; black
 autocmd VimLeave * hi Normal ctermbg=016_Grey0
@@ -167,9 +191,20 @@ autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 "This is a troll to test
 "autocmd VimLeave * silent! !cowsay "Surprise\!\!\!" && read
 
-"========= PLUGINS GENERAL CONFIGURATIONS =========
-"Remap NERDTree command
-:command NT NERDTree
+"############ PLUGIN CONFIGURATIONS ############
+
+"NERDTree configuration
+let NERDTreeIgnore = ['\.dll$','\.pdb$','\.suo$','\.sdf$']
+let NERDTreeWinSize=40
+
+function g:NT()
+    if !empty(&ft)
+        NERDTreeFind
+    else
+        NERDTree
+    end
+    echo
+endfunction
 
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
@@ -180,20 +215,8 @@ let g:tex_flavor='latex'
 "Tags options
 "Exuberant-ctags location
 let Tlist_Ctags_Cmd='/usr/bin/ctags'
-let g:Tlist_Use_Split_Window=0
-
-"CSV parameters
-" NewDelimiter ; "changes the delimiter
-" let g:csv_delim=';'
-
-"EasyAlign plugin
-"nnoremap ga :EasyAlign<CR>
-
-"========= Filetype-specific configurations =========
-" start with all the folds open
-autocmd Syntax org,tex normal zR
-let asmsyntax='armasm'
-let filetype_inc='armasm'
+let g:Tlist_Show_One_File = 1
+let g:Tlist_Display_Prototype = 0
 
 "disable auto-commenting
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o

@@ -9,6 +9,25 @@
 " :he group-name
 " :he highlight-groups
 " :he cterm-colors
+" :he gui-colors
+"
+" NR-16   NR-8    COLOR NAME ~
+" 0	      0	      Black
+" 1	      4	      DarkBlue
+" 2	      2	      DarkGreen
+" 3	      6	      DarkCyan
+" 4	      1	      DarkRed
+" 5	      5	      DarkMagenta
+" 6	      3	      Brown, DarkYellow
+" 7	      7	      LightGray, LightGrey, Gray, Grey
+" 8	      0*	  DarkGray, DarkGrey
+" 9	      4*	  Blue, LightBlue
+" 10      2*	  Green, LightGreen
+" 11      6*	  Cyan, LightCyan
+" 12      1*	  Red, LightRed
+" 13      5*	  Magenta, LightMagenta
+" 14      3*	  Yellow, LightYellow
+" 15      7*	  White
 
 set background=dark
 if version > 580
@@ -32,7 +51,7 @@ hi Cursor	guibg=khaki guifg=slategrey
 "hi DiffDelete
 "hi DiffText
 "hi ErrorMsg
-hi VertSplit	guibg=#c2bfa5 guifg=grey50 gui=none
+hi VertSplit	guibg=#c2bfa5 guifg=grey50 gui=NONE
 hi Folded	guibg=grey30 guifg=gold
 hi FoldColumn	guibg=grey30 guifg=tan
 "hi IncSearch	guifg=slategrey guibg=khaki
@@ -43,10 +62,10 @@ hi NonText	guifg=LightBlue guibg=grey30
 hi Question	guifg=springgreen
 "hi Search	guibg=peru guifg=wheat
 hi SpecialKey	guifg=yellowgreen
-hi StatusLine	guibg=#c2bfa5 guifg=black gui=none
-hi StatusLineNC	guibg=#c2bfa5 guifg=grey50 gui=none
+hi StatusLine	guibg=#c2bfa5 guifg=black gui=NONE
+hi StatusLineNC	guibg=#c2bfa5 guifg=grey50 gui=NONE
 hi Title	guifg=indianred
-hi Visual	gui=none guifg=none guibg=olivedrab ctermfg=yellow ctermbg=none cterm=reverse
+hi Visual	gui=NONE guifg=NONE guibg=olivedrab ctermfg=yellow ctermbg=NONE cterm=reverse
 "hi VisualNOS
 hi WarningMsg	guifg=salmon
 "hi WildMenu
@@ -57,14 +76,14 @@ hi WarningMsg	guifg=salmon
 " syntax highlighting groups
 hi Comment	guifg=SkyBlue
 hi Identifier	guifg=palegreen
-hi Statement	guifg=khaki
+" hi Statement	guifg=khaki
 hi PreProc	guifg=indianred
 hi Type		guifg=darkkhaki
 hi Special	guifg=navajowhite
 "hi Underlined
 hi Ignore	guifg=grey40
 "hi Error
-hi Todo		guifg=orangered guibg=yellow2
+hi Todo		ctermfg=white ctermbg=darkcyan
 
 " color terminal definitions
 hi SpecialKey	ctermfg=darkgreen
@@ -86,7 +105,9 @@ hi VisualNOS	cterm=bold,underline
 hi WarningMsg	ctermfg=1
 hi WildMenu	ctermfg=0 ctermbg=3
 "completion menu
-hi Pmenu ctermbg=darkcyan ctermfg=black
+hi Pmenu cterm=bold ctermbg=black ctermfg=grey
+hi PmenuSel ctermbg=lightcyan ctermfg=black
+
 hi Folded	ctermfg=darkgrey ctermbg=NONE
 hi FoldColumn	ctermfg=darkgrey ctermbg=NONE
 hi DiffAdd	ctermbg=4
@@ -94,23 +115,35 @@ hi DiffChange	ctermbg=5
 hi DiffDelete	cterm=bold ctermfg=4 ctermbg=6
 hi DiffText	cterm=bold ctermbg=1
 hi Comment	ctermfg=darkcyan
-hi Constant	cterm=NONE ctermfg=DarkRed
+hi Constant	cterm=NONE ctermfg=Red
 hi String  cterm=NONE ctermfg=darkmagenta
-hi Special	ctermfg=5
-hi Identifier	ctermfg=6
-hi Statement	ctermfg=3
-hi PreProc	ctermfg=5
+hi Special	ctermfg=lightmagenta
+" hi Identifier	ctermfg=6
+hi Statement	ctermfg=darkyellow
+hi PreProc	ctermfg=lightmagenta
 hi Type		ctermfg=2
 hi Underlined	cterm=underline ctermfg=5
 hi Ignore	cterm=bold ctermfg=7
 hi Ignore	ctermfg=darkgrey
 hi Error	cterm=bold ctermfg=7 ctermbg=1
 
+hi MatchParen ctermbg=lightcyan ctermfg=black cterm=NONE
+
+" Tabline
+" --------------------------
+hi TabLine ctermfg=black ctermbg=grey cterm=NONE
+hi TabLineSel ctermfg=yellow ctermbg=black cterm=NONE
+hi TabLineFill ctermfg=black ctermbg=grey cterm=NONE
+
 " MATLAB Highlighting
 """"""""""""""""""""""""""""""""""""""
 "highlight MATCELL cterm=bold,underline ctermbg=darkcyan ctermfg=white
-highlight MATCELL cterm=bold,underline ctermfg=darkcyan
+hi MATCELL cterm=bold,underline ctermfg=darkcyan
 match MATCELL /^%%\s.*$\|^%%$/
 
+" shell
+hi shVariable       ctermfg=lightred
+hi shFunctionKey    ctermfg=lightcyan
+hi! link shFunction Normal
 
 "vim: sw=4

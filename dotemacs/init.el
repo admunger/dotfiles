@@ -1,5 +1,5 @@
 ;; Personnal configuration
-(load-file "~/.emacs.d/private.el")
+;; (load-file "~/.emacs.d/private.el")
 
 (server-start)
 
@@ -9,7 +9,8 @@
 (global-unset-key (kbd "<menu>"))
 
 ;; set default font
-(add-to-list 'default-frame-alist '(font . "WenQuanYi Micro Hei Mono-10"))
+;; (add-to-list 'default-frame-alist '(font . "WenQuanYi Micro Hei Mono-10"))
+(add-to-list 'default-frame-alist '(font . "Consolas-11"))
 
 ;; start maximized
 (custom-set-variables
@@ -48,6 +49,7 @@
     (insert (shell-command-to-string "echo -n $(date +%Y/%m/%d)")))
 (defun date-long () (interactive)
     (insert (shell-command-to-string "echo -n $(date '+%B %_e, %Y')")))
+;;  (insert (format-time-string "%a %_e %B")))
 ;;(global-set-key "\C-x\M-d" 'date-short)
 
 ;; hide useless toolbar
@@ -100,11 +102,20 @@
 
 (require 'evil)
 (evil-mode 1)
-(global-relative-line-numbers-mode)
+;; from linum-relative
+;; check this if you're not satisfied : 
+;; https://www.emacswiki.org/emacs/LineNumbers
+;; allows to handle folding in org-mode
+(setq display-line-numbers-type 'visual)
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+;; (global-display-line-numbers-mode)
+(setq-default display-line-numbers-type 'relative)
+;; (global-relative-line-numbers-mode)
 (setq linum-format "%2d")
 
-(setq relative-line-numbers-motion-function 'forward-line)
-(setq relative-line-numbers-max-count 60)
+;; (setq relative-line-numbers-motion-function 'forward-line)
+;; (setq relative-line-numbers-max-count 60)
 ;;(global-linum-mode 1) ;; line numbers
 (define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
 (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
@@ -123,6 +134,9 @@
 ;; Vim-surround
 (require 'evil-surround)
 (global-evil-surround-mode 1)
+
+;; command alias with emacs' equivalent
+(evil-ex-define-cmd "W" 'save-buffer)
 
 ;; Git : magit
 ;; (setq evil-magit-state 'motion)
@@ -149,6 +163,9 @@
 (add-hook 'org-mode-hook
  	  (lambda ()
       (visual-line-mode t)))
+(add-hook 'org-mode-hook
+      (lambda ()
+      (setq display-line-numbers-type 'visual)))
 ;; 	    (org-bullets-mode t)))
 (setq org-hide-leading-stars t)
 ;; Change timestamp format
@@ -167,12 +184,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(font-latex-subscript-face ((t nil)))
+ '(font-latex-superscript-face ((t nil)))
  '(org-level-1 ((t (:foreground "white" :bold t))))
- '(org-level-2 ((t (:foreground "DodgerBlue"))))
- '(org-level-3 ((t (:foreground "orange"))))
- '(org-level-4 ((t (:foreground "red"))))
+ '(org-level-2 ((t (:foreground "LimeGreen"))))
+ '(org-level-3 ((t (:foreground "DodgerBlue"))))
+ '(org-level-4 ((t (:foreground "orange"))))
  '(org-level-5 ((t (:foreground "pink"))))
- '(org-level-6 ((t (:foreground "magenta")))))
+ '(org-level-6 ((t (:foreground "firebrick1"))))
+ '(org-level-7 ((t (:foreground "aquamarine1")))))
 
 ;; LaTex preferences
 (setq TeX-auto-save t)

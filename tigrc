@@ -1,8 +1,11 @@
 #! vi:set syntax=bash
 #
+# Doc : http://jonas.nitro.dk/tig/manual.html
 # Need tig version 2.2.2 or greater!
 
 set vertical-split = 0
+
+set main-options = -n 200
 
 # line numbers
 set pager-view = line-number:yes,interval=5 text
@@ -25,9 +28,15 @@ set blame-view = line-number:yes,interval=10 \
                  id:yes,color \
                  text
 
+set status-view = line-number:yes \
+                  status \
+                  file-name
+
 set wrap-lines = true
 
 set split-view-height = 85%
+
+# color date red black bold
 
 # navigation
 set horizontal-scroll = 30
@@ -40,9 +49,13 @@ set mouse-scroll = 3
 bind generic h scroll-left
 bind generic l scroll-right
 bind generic H view-help 
+bind generic ? view-help 
 bind generic g move-first-line
 bind generic G move-last-line
 bind generic <Ctrl-F> move-page-down
 bind generic <Ctrl-B> move-page-up
 bind main <tab> view-log
 bind tree <tab> ?git log --graph --abbrev-commit %(file)
+
+# allows to checkout to a line, commit or tag
+bind refs T !git checkout %(tag)

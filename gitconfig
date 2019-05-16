@@ -1,3 +1,5 @@
+[core]
+	editor = vim
 [user]
 	email = a.munger@hotmail.com
 	name = Adriel
@@ -10,17 +12,21 @@
     ui = false
     # coloring is true for git status
     status = true
+    pager  = false
+    ui     = true
+[log]
+	date = local
+[merge]
+    tool = vimdiff
 [diff]
     tool = vimdiff
 #[difftool]
 #    prompt = false
-[merge]
-    tool = vimdiff
 [rebase]
     tool = vimdiff
-[core]
-	editor = vim
 [alias]
     wdiff = diff --color-words
 [add]
     default = ignore-removal
+[pager]
+    show = vim -c 'set ft=diff' -R +1 -

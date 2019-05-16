@@ -5,6 +5,7 @@ CHEAT="$HOME/cheatSheet"
 NEXUS=/run/user/*/gvfs/*/
 CDROM=/run/user/*/gvfs/cdda:*/
 VIMRC=~/.vim/vimrc
+alias NT='vim -c "NERDTree | call NERDTreeToggleWidth()"'
 RANGER_OUTPUT="$HOME/.config/ranger/rangercd"
 # Command shortcuts
 alias xd='xdg-open'

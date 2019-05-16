@@ -24,7 +24,9 @@ autocmd BufReadPost,BufNewFile * let b:bufComment = FT_getComment()
 " autocmd BufReadPost,BufNewFile *.* let b:bufComment = FT_getComment()
 
 " let b:buffComm = b:bufComment
-let g:comment_length = strlen(CommentStr)
+if !exists("g:comment_length")
+    let g:comment_length = 1
+end
 
 nmap <silent> <leader>r :call FT_CommentLines()<CR>
 vmap <silent> <leader>r :call FT_CommentLines()<CR>
@@ -39,9 +41,11 @@ function! FT_CommentLines() range
         "substitute function with '@' being the separators
         " '.' concatenate parameters of exe
         " b:bufComment is defined with FT_getComment
-        exe ":s@^@".b:bufComment." @g"
+        " this regex adds a comment after the indentation
+        exe ":s@\\(^[ ]*\\)@\\1".b:bufComment." @g"
     else
         "specify substitute within range
+        "for a block we don't care about indentation
         exe "'<,'>s@^@".b:bufComment." @g"
     endif
     " we add 1 to include the space width
@@ -59,12 +63,12 @@ function! FT_UncommentLines() range
   " b:bufComment is defined with FT_getComment
     let a_cur = getpos('.')
     if a:firstline == a:lastline 
-        exe ":s@^".b:bufComment."@@g"
+        exe ":s@^[ ]*".b:bufComment."@@g"
 		" this allows to remove the space after comment symbol
 		normal V=
     else
         "specify substitute within range
-        exe ":'<,'>s@^".b:bufComment."@@g"
+        exe ":'<,'>s@^[ ]*".b:bufComment."@@g"
 		" this allows to remove the space after comment symbol
 		normal '<V'>=
     endif
@@ -76,26 +80,26 @@ endfunction
 
 function! FT_check_if_comment()
 "    " let g:comment_length = strlen(CommentStr)
-    let a:len = g:comment_length
-    let a:it = 0
-    while a:it < a:len
-        if b:bufComment[a:it] != getline('.')[a:it]
+    let l:len = g:comment_length
+    let l:it = 0
+    while l:it < l:len
+        if b:bufComment[l:it] != getline('.')[l:it]
             echo "line is not commented"
             return 0
         endif
-        let a:it += 1
+        let l:it += 1
     endwhile
     echo "line is commented"
     return 1
 endfunction
 
 function! FT_toggleComment()
-    let a:check = FT_check_if_comment()
+    let l:check = FT_check_if_comment()
 
     "no default actions, in case FT_check returns an error
-    if  a:check == 1
+    if  l:check == 1
         call FT_UncommentLines()
-    elseif a:check == 0
+    elseif l:check == 0
         call FT_CommentLines()
 "         normal a 
     endif
@@ -103,17 +107,18 @@ endfunction
 
 " sets the variable b:bufComment specific to each buffer
 function! FT_getComment()
-    let a:comment = "#"
-    let a:ft = &ft
+    let l:comment = "#"
+    let l:ft = &ft
 
-    if     a:ft == 'vim'      | let a:comment = "\""
-    elseif a:ft == 'c'        | let a:comment = "//"
-    elseif a:ft == 'cpp'      | let a:comment = "//"
-    elseif a:ft == 'lisp'     | let a:comment = ";;"
-    elseif a:ft == 'matlab'   | let a:comment = "%"
-    elseif a:ft == 'dosbatch' | let a:comment = "::"
+    if     l:ft == 'vim'      | let l:comment = "\""
+    elseif l:ft == 'c'        | let l:comment = "//"
+    elseif l:ft == 'cpp'      | let l:comment = "//"
+    elseif l:ft == 'lisp'     | let l:comment = ";;"
+    elseif l:ft == 'matlab'   | let l:comment = "%"
+    elseif l:ft == 'dosbatch' | let l:comment = "::"
+    elseif l:ft == 'xml'      | let l:comment = "<!--"
     endif
 
-    return a:comment
+    return l:comment
 endfunction
 
