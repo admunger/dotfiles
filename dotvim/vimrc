@@ -1,4 +1,6 @@
 set nocompatible
+set langmenu=en_US
+let $LANG = 'en_US'
 
 execute pathogen#infect()
 
@@ -19,8 +21,19 @@ set swapfile
 set ruler
 set number
 set relativenumber
-set linebreak "backspace support
-"command mode completion
+" do not search further 1st modeline
+set nomodeline
+" set modelines=1
+
+set tabstop=4
+set shiftwidth=4
+set smarttab  
+set smartindent "continue where indentation is
+set expandtab "spaces instead of tabs
+
+" the default encoding is utf-8, keeps everything easier
+set termencoding=utf-8 
+set encoding=utf-8
 scriptencoding utf-8 "else listchars command would throw an error
 set list
 " view tabs in the file
@@ -57,7 +70,14 @@ if has('mouse')
     map <ScrollWheelDown> 5<C-E>
 endif
 set scrolloff=4
+set foldlevelstart=99
+set foldmethod=syntax
+set whichwrap+=<,>,[,]
+set backspace=indent,eol,start
 set nostartofline "stays in current column if possible with G/gg
+set linebreak
+
+set clipboard=unnamed
 
 "These 2 filetypes BEFORE "syntax on"
 filetype plugin indent on
@@ -143,6 +163,8 @@ let mapleader="é"
 "Map arrow keys to visible lines (editing text)
 nnoremap <up> gk
 nnoremap <down> gj
+nnoremap <C-p> gk
+nnoremap <C-n> gj
 inoremap <up> <C-o>gk
 inoremap <down> <C-o>gj
 vnoremap <up> gk
@@ -218,8 +240,20 @@ let Tlist_Ctags_Cmd='/usr/bin/ctags'
 let g:Tlist_Show_One_File = 1
 let g:Tlist_Display_Prototype = 0
 
+"############ GENERIC AUTOCOMMANDS ############
+
+" prefered indentation
+autocmd FileType c,cpp,xml setlocal tabstop=2 shiftwidth=2
+" " sets the Comment string to each filetype at load
+" autocmd BufReadPost,BufNewFile * let b:bufComment = FT_getComment()
 "disable auto-commenting
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd Filetype * set formatoptions-=c formatoptions-=r formatoptions-=o
+
+autocmd Filetype csv setlocal nowrap "guioptions+=b
+
+" vimdiff config
+set diffopt+=iwhite
+set diffopt+=algorithm:minimal
 
 " vim -b : edit binary using xxd-format!
 " :%!xxd

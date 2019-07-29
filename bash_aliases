@@ -11,7 +11,9 @@ RANGER_OUTPUT="$HOME/.config/ranger/rangercd"
 alias xd='xdg-open'
 alias logout='gnome-session-quit'
 alias naut='nautilus . & xdotool search --onlyvisible --class nautilus windowactivate'
-alias tmux='tmux -3'
+# always use tmux with UTF-8 compliance
+alias tmux='TERM=xterm-256color tmux -u'
+# alias tmux='tmux -3'
 
 # Command with default parameters/behaviour
 alias rm='rm -v -I'

@@ -66,11 +66,11 @@ hi Normal guifg=#F8F8F2 guibg=#111111 gui=NONE ctermfg=15 ctermbg=233 cterm=NONE
 hi Conceal guifg=#66D9EF guibg=#111111 gui=NONE ctermfg=81 ctermbg=233 cterm=NONE
 hi NonText guifg=#49483E guibg=NONE gui=NONE ctermfg=59 ctermbg=NONE cterm=NONE
 "put these on windows if you find problem with statusline
-"hi StatusLine guifg=#66D9EF guibg=darkgreen gui=NONE ctermfg=81 ctermbg=233 cterm=NONE
-"hi StatusLineNC guifg=#778899 guibg=darkgreen gui=NONE ctermfg=103 ctermbg=233 cterm=NONE
+hi StatusLineNC guifg=#66D9EF guibg=darkgreen gui=NONE ctermfg=81_SteelBlue1 ctermbg=17_NavyBlue cterm=NONE
+hi StatusLine guifg=#778899 guibg=darkgreen gui=NONE ctermfg=17_NavyBlue ctermbg=81_SteelBlue1 cterm=NONE
 
-hi StatusLine guifg=#66D9EF guibg=#111111 gui=NONE ctermfg=81 ctermbg=black cterm=NONE
-hi StatusLineNC guifg=#778899 guibg=#111111 gui=NONE ctermfg=103 ctermbg=black cterm=NONE
+" hi StatusLine guifg=#66D9EF guibg=#111111 gui=NONE ctermfg=81 ctermbg=black cterm=NONE
+" hi StatusLineNC guifg=#778899 guibg=#111111 gui=NONE ctermfg=103 ctermbg=black cterm=NONE
 hi Search guifg=#000000 guibg=#FFE972 gui=NONE ctermfg=00 ctermbg=221 cterm=NONE
 hi VertSplit guifg=#75715E guibg=NONE gui=NONE ctermfg=95 ctermbg=NONE cterm=NONE
 hi LineNr guifg=#8F908A guibg=NONE gui=NONE ctermfg=102 ctermbg=NONE cterm=NONE
@@ -103,10 +103,11 @@ hi Directory guifg=#66D9EF guibg=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NON
 
 " Diff
 " --------------------------
-hi DiffAdd guifg=#F8F8F8 guibg=#253B22 gui=NONE ctermfg=15 ctermbg=22 cterm=NONE
-hi DiffDelete guifg=#F92672 guibg=#420E09 gui=NONE ctermfg=197 ctermbg=52 cterm=NONE
-hi DiffChange guifg=#E6DB74 guibg=#420E09 gui=NONE ctermfg=185 ctermbg=52 cterm=NONE
-hi DiffText guifg=#75715E guibg=NONE gui=NONE ctermfg=95 ctermbg=NONE cterm=NONE
+hi DiffAdd guifg=#F8F8F8 guibg=#253B22 gui=NONE ctermbg=22 cterm=NONE
+hi DiffDelete guifg=#F92672 guibg=#420E09 gui=NONE ctermfg=052_DarkRed ctermbg=NONE cterm=NONE
+" hi DiffChange guifg=#E6DB74 guibg=#420E09 gui=NONE ctermfg=185_Khaki3 ctermbg=52 cterm=NONE
+hi DiffChange guifg=#E6DB74 guibg=#420E09 gui=NONE ctermbg=052_DarkRed cterm=NONE
+hi DiffText guifg=#75715E guibg=NONE gui=NONE ctermfg=NONE ctermbg=088_DarkRed cterm=NONE
 
 " Folding
 " --------------------------
@@ -168,6 +169,12 @@ hi Todo guifg=#F8F8F2 guibg=#111111 gui=bold ctermfg=15 ctermbg=233 cterm=bold
 hi Error guifg=#F8F8F2 guibg=#960020 gui=NONE ctermfg=15 ctermbg=88 cterm=NONE
 
 hi Comment	ctermbg=233_Grey7 ctermfg=103 cterm=NONE
+
+" ORG-MODE
+hi OrgLevel1 cterm=bold ctermfg=184_Yellow3
+hi OrgLevel2 cterm=NONE ctermfg=040_Green3
+hi OrgLevel3 cterm=NONE ctermfg=039_DeepSkyBlue1
+hi OrgLevel4 cterm=NONE ctermfg=172_Orange3
 
 
 " Makefile Highlighting

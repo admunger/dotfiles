@@ -165,7 +165,8 @@
       (visual-line-mode t)))
 (add-hook 'org-mode-hook
       (lambda ()
-      (setq display-line-numbers-type 'visual)))
+      (setq display-line-numbers-type 'visual)
+      (org-toggle-time-stamp-overlays)))
 ;; 	    (org-bullets-mode t)))
 (setq org-hide-leading-stars t)
 ;; Change timestamp format
