@@ -7,12 +7,12 @@ execute pathogen#infect()
 "========= GENERAL OPTIONS =========
 
 "Option to remove any traces in .viminfo
-set viminfo=/5,'0,:5,<0,@0,f0
+set viminfo=/5,'2,:5,<0,@0,f0
 "            |  |  |  |  |  '-file marks 0-9,A-Z not saved               
 "            |  |  |  |  '-input-line history not saved
 "            |  |  |  '-registers not saved
 "            |  |  '-5 last command-line history saved
-"            |  '-file marks not saved
+"            |  '-2 last file mark positions saved
 "            '-5 recent search history will be saved
 "        no % : buffer list not saved
 
@@ -25,32 +25,18 @@ set relativenumber
 set nomodeline
 " set modelines=1
 
-set tabstop=4
-set shiftwidth=4
-set smarttab  
-set smartindent "continue where indentation is
-set expandtab "spaces instead of tabs
-
-" the default encoding is utf-8, keeps everything easier
-set termencoding=utf-8 
-set encoding=utf-8
-scriptencoding utf-8 "else listchars command would throw an error
-set list
-" view tabs in the file
-set listchars=tab:→\ 
-
-
 "menu complete
 set wildmenu
 set wildmode=longest,full
 set wildignore=*.pdf,*.png,*.eps,*.o
 "case-insensitive file completion
 set wildignorecase
+" remove search in /usr/include files
+setglobal complete-=i
 
 " split configs
 set splitright
 set splitbelow
-
 
 set magic
 vmap C "+y
@@ -76,8 +62,6 @@ set whichwrap+=<,>,[,]
 set backspace=indent,eol,start
 set nostartofline "stays in current column if possible with G/gg
 set linebreak
-
-set clipboard=unnamed
 
 "These 2 filetypes BEFORE "syntax on"
 filetype plugin indent on
@@ -106,13 +90,21 @@ if &diff
     colorscheme goldenrod
 endif
 
-"Code options
-"enable # vim: header in file
-set modeline
+
 set tabstop=4
 set shiftwidth=4
-"set smarttab
+set smarttab
+set smartindent
 set expandtab
+
+" the default encoding is utf-8
+set termencoding=utf-8
+set encoding=utf-8
+scriptencoding utf-8 "else listchars command would throw an error
+" view tabs in file
+set list
+set listchars=tab:→\ 
+
 set clipboard=unnamedplus
 set cindent  "indent like C code
 "Indentation for makefiles
@@ -173,6 +165,7 @@ vnoremap <down> gj
 "Fuck Ex mode
 nnoremap Q <nop>
 
+nmap <leader><Space> :%s@<C-r>/@@gn<CR>
 
 "navigation between splits
 "nnoremap <C-k> <C-W>k
@@ -188,24 +181,28 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 " recursively search pattern under cursor within directory
 nmap <leader>/ :vimgrep /\<<C-R><C-W>\>/g **/*.\(cxx\\\|h\)
 
-"navigate through vimgrep/cscope search
-set cscopequickfix=s+
+" remove previous quickfix searches
+set cscopequickfix=s-
 nnoremap ]q :cnext<CR>
 nnoremap [q :cprevious<CR>
 nnoremap ]Q :clast<CR>
 nnoremap [Q :cfirst<CR>
 
+nmap <tab> zo
+
+" use CTRL-A to go to beginning of a command
+cmap <c-a> <c-b>
+
+
 " shortcuts for common commands
 cnoreabbrev Q q
-cnoreabbrev W w
 cnoreabbrev Qa qa
+cnoreabbrev W w
 cnoreabbrev Wq wq
 cnoreabbrev Ed ed
 cnoreabbrev ta tabnew
 cnoreabbrev NT call NT()
 
-" count number of result of last search ("/" register)
-nmap <leader><Space> :%s@<C-r>/@@gn<CR>
 
 " restore Normal terminal background; black
 autocmd VimLeave * hi Normal ctermbg=016_Grey0
@@ -237,8 +234,28 @@ let g:tex_flavor='latex'
 "Tags options
 "Exuberant-ctags location
 let Tlist_Ctags_Cmd='/usr/bin/ctags'
-let g:Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1 "if taglist window is the only window left, exit vim
+let Tlist_Show_One_File = 1 "show tags of only one file
+let g:Tlist_Use_Split_Window = 0
 let g:Tlist_Display_Prototype = 0
+let g:tlist_cpp_settings = 'c++;d:macro;' . 'c:class;g:enum;s:struct;u:union;f:function'
+set cscopetag "check cscope before ctags
+" avoid tag duplicates in case TAGS and tags exists
+set tags=tags
+
+"CSV parameters
+" NewDelimiter ; "changes the delimiter
+" let g:csv_delim=';'
+
+"EasyAlign plugin
+"nnoremap ga :EasyAlign<CR>
+
+"========= Filetype-specific configurations =========
+" start with all the folds open
+autocmd Syntax org,tex normal zR
+" set foldmethod=indent
+let asmsyntax='armasm'
+let filetype_inc='armasm'
 
 "############ GENERIC AUTOCOMMANDS ############
 
@@ -247,9 +264,16 @@ autocmd FileType c,cpp,xml setlocal tabstop=2 shiftwidth=2
 " " sets the Comment string to each filetype at load
 " autocmd BufReadPost,BufNewFile * let b:bufComment = FT_getComment()
 "disable auto-commenting
-autocmd Filetype * set formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
+"enable omni completion for C++
+au BufNewFile,BufRead,BufEnter *.cpp,*.hpp,*.cc,*.hh set omnifunc=omni#cpp#complete#Main
+"specific completion when in C
+autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd Filetype csv setlocal nowrap "guioptions+=b
+
+" jump to last position in file
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " vimdiff config
 set diffopt+=iwhite

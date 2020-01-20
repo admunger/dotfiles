@@ -39,13 +39,13 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-force_color_prompt=yes
+#force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -59,10 +59,6 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    #Full Path PS1='${debian_chroot:+($debian_chroot)}\[\033[07;37m\]\u\[\033[00m\]@\h:\[\033[00;94m\]\w\[\033[00m\]\$ '
-    #Relative 2 level path PS1='${debian_chroot:+($debian_chroot)}\[\033[07;37m\]\u\[\033[00m\]@\h:\[\033[00;94m\]$(basename $(dirname $PWD))/$(basename $PWD)\[\033[00m\]\$ '
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[07;37m\]\u\[\033[00m\]@\h:\[\033[00;94m\]\W\[\033[00m\]\$ '
-
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi

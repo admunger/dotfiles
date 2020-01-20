@@ -14,6 +14,7 @@ alias naut='nautilus . & xdotool search --onlyvisible --class nautilus windowact
 # always use tmux with UTF-8 compliance
 alias tmux='TERM=xterm-256color tmux -u'
 # alias tmux='tmux -3'
+alias udev_reload='sudo udevadm control --reload-rules && sudo udevadm trigger'
 
 # Command with default parameters/behaviour
 alias rm='rm -v -I'
@@ -41,8 +42,23 @@ alias evince='evince &>/dev/null'
 alias tmatlab="matlab -nodesktop -nosplash"
 alias matlab_soft="matlab -softwareopengl"
 
+cstags()
+{
+    CS_FILE=tags_temp
+    find -iname *.c -or -iname *.cpp > ${CS_FILE}
+    ctags --extra=f -L ${CS_FILE}
+    cscope -k -b -i ${CS_FILE}
+    rm ${CS_FILE} &> /dev/null
+    echo "ctags and cscope tags successfully generated"
+}
+
 # allows to specify a pdf name and avoid polluting terminal
 foxit()
 {
     ~/Applications/foxitsoftware/foxitreader/FoxitReader $1 &> /dev/null
+}
+
+NT()
+{
+    vim -c 'NERDTree' $*
 }

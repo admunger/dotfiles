@@ -120,7 +120,7 @@ hi ColorColumn guifg=NONE guibg=#383A3E gui=NONE ctermfg=NONE ctermbg=236 cterm=
 hi CursorColumn guifg=NONE guibg=#383A3E gui=NONE ctermfg=NONE ctermbg=236 cterm=NONE
 hi CursorLine guifg=NONE guibg=#383A3E gui=NONE ctermfg=NONE ctermbg=236 cterm=NONE
 hi Cursor guifg=#111111 guibg=#F8F8F2 gui=NONE ctermfg=233 ctermbg=15 cterm=NONE
-hi Visual guifg=NONE guibg=#49483E gui=NONE ctermfg=NONE ctermfg=yellow ctermbg=NONE cterm=reverse
+hi Visual guifg=NONE guibg=#49483E gui=NONE ctermbg=238_Grey27 cterm=NONE
 "updated to avoid bad contrast yellow-on-gray
 hi MatchParen ctermbg=yellow ctermfg=233_Grey7 cterm=reverse,undercurl
 "hi MatchParen guifg=#111111 guibg=#E6DB74 gui=NONE ctermfg=yellow ctermbg=233_Grey7 cterm=NONE
@@ -171,10 +171,10 @@ hi Error guifg=#F8F8F2 guibg=#960020 gui=NONE ctermfg=15 ctermbg=88 cterm=NONE
 hi Comment	ctermbg=233_Grey7 ctermfg=103 cterm=NONE
 
 " ORG-MODE
-hi OrgLevel1 cterm=bold ctermfg=184_Yellow3
-hi OrgLevel2 cterm=NONE ctermfg=040_Green3
-hi OrgLevel3 cterm=NONE ctermfg=039_DeepSkyBlue1
-hi OrgLevel4 cterm=NONE ctermfg=172_Orange3
+hi OrgLevel1 guifg=#afd700 cterm=bold ctermfg=184_Yellow3
+hi OrgLevel2 guifg=#00af00 cterm=NONE ctermfg=040_Green3
+hi OrgLevel3 guifg=#00afff cterm=NONE ctermfg=039_DeepSkyBlue1
+hi OrgLevel4 guifg=#d78700 cterm=NONE ctermfg=172_Orange3
 
 
 " Makefile Highlighting
