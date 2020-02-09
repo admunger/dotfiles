@@ -5,6 +5,16 @@
 " Features : - Header folding
 "            - ...
 
+" HELPER/SHORTCUTS IN PLUGIN
+"-----------------------------------------
+" [z : goto parent header of lower level
+" ]z : goto end of current header section
+" zo : open fold
+" zO : open recursively fold under header
+"
+" C-x C-i : clock-in timestamp
+" C-x C-o : clock-out timestamp
+
 "HEADER GUARD to avoid including this file multiple times
 if exists("g:org_ftplugin_loaded")
 "     source ~/.vim/plugin/comments.vim
@@ -18,6 +28,7 @@ let g:org_ftplugin_loaded = 1
 setlocal foldmethod=expr
 setlocal foldexpr=Org_getFold(v:lnum)
 setlocal foldtext=Org_setText(v:foldstart)
+setlocal foldlevel=0
 setlocal autoindent
 " this option is overriden for some reason
 set formatoptions=qrlcn
@@ -31,6 +42,8 @@ set shiftwidth=2
 " localleader is <C-x>
 let maplocalleader=""
 
+nmap <buffer> <silent> <C-j> :call Org_gotoSameLevel(1)<CR>
+nmap <buffer> <silent> <C-k> :call Org_gotoSameLevel(-1)<CR>
 imap <buffer> <silent> <C-j> <Esc>ms:call Org_addHeader()<CR>a
 
 " allows to change level of header
@@ -42,10 +55,34 @@ nmap <buffer> <localleader><C-i> :call Org_startTimestamp()<CR>
 nmap <buffer> <localleader><C-o> :call Org_EndTimestamp()<CR>
 
 nmap <buffer> <leader>d :read !date "+\%a, \%d \%B"<CR>
-nmap <buffer> <tab> :call Org_cycleVisibility()<CR>
+
+" folding remappings
+nmap <buffer> <tab> za
+" nmap <buffer> <tab> :call Org_cycleVisibility()<CR>
+"open recursively even if partially open
+nnoremap zO zCzO
+nnoremap zC :call Org_foldCloseRecursive()<CR>
 
 nnoremap K <NOP>
 
+" variables local to script
+let s:maxLevel = 5
+
+" nnoremap <buffer> j j:echo foldlevel('.')<CR>
+" nnoremap <buffer> k k:echo foldlevel('.')<CR>
+
+
+function! Org_gotoSameLevel(dir)
+    let l:line = line('.')
+    let l:lvl = foldlevel(l:line)
+    if a:dir == 1
+        call search('^\*\{'.l:lvl.'} ')
+    else
+        call search('^\*\{'.l:lvl.'} ','b')
+    endif
+endfunction
+
+" replaced by builtin "za"
 function! Org_cycleVisibility()
     let l:fold = foldclosed('.')
     if l:fold == -1
@@ -70,7 +107,7 @@ function! Org_HeaderLevelPlus()
     call setpos('.',l:pos)
 endfunction
 function! Org_HeaderLevelMinus()
-    "[bufnum, lnum, col, off]
+    "getpos = [bufnum, lnum, col, off]
     let l:pos = getpos('.')
     let l:lvl = Org_countStar(l:pos[1])
     if l:lvl == 1
@@ -124,10 +161,10 @@ endfunction
 "if at end of line, it should start on new line
 function! Org_addHeader()
     "g:cur is a vector
-    let l:cur = getpos('.')
+    let l:cur = line('.')
     " do not add extra star on a header
-    if getline(l:cur[1]) !~? '^\*.*$'
-        let l:head =  Org_getHeaderLine(l:cur[1])
+    if getline(l:cur) !~? '^\*.*$'
+        let l:head =  Org_getHeaderLine(l:cur)
         let l:lvl = Org_countStar(l:head)
 
         " add stars at beginning plus <space>
@@ -138,12 +175,15 @@ function! Org_addHeader()
     endif
 endfunction
 
+" describes to Vim how to fold lines
+" returns the foldlevel, append '>' for start of folds
 function! Org_getFold(lnum)
     let l:level = '0'
     
     if getline(a:lnum) =~? '^\*\+ .*$'
         " allows to separate headers from each other
         let l:level1 = Org_countStar(a:lnum)
+        " this line starts the fold level
         let l:level = '>' . l:level1
     else
         let l:curr =  Org_getHeaderLine(a:lnum)
@@ -155,15 +195,25 @@ function! Org_getFold(lnum)
     return l:level
 endfunction
 
+" closes each header of higher level within section
+function! Org_foldCloseRecursive()
+    let l:pos = getpos('.')
+    let l:line = l:pos[1]
+    echom "current line is ".l:line
+    normal ]z
+    while line('.') ># l:line
+        normal zck
+    endwhile
+    call setpos('.',l:pos)
+endfunction
+
 function! Org_countStar(lnum)
     let l:str = getline(a:lnum)
     let l:max = strlen(l:str)
-    if l:max > 5
-        let l:max = 5
+    if l:max > s:maxLevel
+        let l:max = s:maxLevel
     endif
-
     let l:count = 0
-    let l:i = 0
     
     "iterate in line until last '*'
     while l:str[l:count] ==# '*'

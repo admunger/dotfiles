@@ -1,6 +1,6 @@
 set nocompatible
-set langmenu=en_US
-let $LANG = 'en_US'
+" set langmenu=en_US
+" let $LANG = 'en_US'
 
 execute pathogen#infect()
 
@@ -71,6 +71,7 @@ syntax on
 set t_Co=256 "256 colors
 "gvim configs
 if has('gui_running')
+    " colorscheme badwolf "gurunew
     colorscheme badwolf "gurunew
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
@@ -106,7 +107,7 @@ set list
 set listchars=tab:→\ 
 
 set clipboard=unnamedplus
-set cindent  "indent like C code
+" set cindent  "indent like C code
 "Indentation for makefiles
 "set noet ci pi sts=0 sw=4 ts=4
 set iskeyword-=58 "colon
@@ -155,12 +156,14 @@ let mapleader="é"
 "Map arrow keys to visible lines (editing text)
 nnoremap <up> gk
 nnoremap <down> gj
-nnoremap <C-p> gk
-nnoremap <C-n> gj
 inoremap <up> <C-o>gk
 inoremap <down> <C-o>gj
 vnoremap <up> gk
 vnoremap <down> gj
+inoremap <C-f> <C-o>l
+inoremap <C-b> <C-o>h
+"inoremap <C-n> <C-o>j
+"inoremap <C-p> <C-o>k
 
 "Fuck Ex mode
 nnoremap Q <nop>
@@ -203,6 +206,8 @@ cnoreabbrev Ed ed
 cnoreabbrev ta tabnew
 cnoreabbrev NT call NT()
 
+"cd to current buffer
+"autocmd BufEnter * silent! lcd %:p:h
 
 " restore Normal terminal background; black
 autocmd VimLeave * hi Normal ctermbg=016_Grey0
@@ -252,7 +257,8 @@ set tags=tags
 
 "========= Filetype-specific configurations =========
 " start with all the folds open
-autocmd Syntax org,tex normal zR
+" autocmd Syntax org,tex normal zR
+set foldmethod=expr
 " set foldmethod=indent
 let asmsyntax='armasm'
 let filetype_inc='armasm'
