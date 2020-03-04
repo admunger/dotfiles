@@ -54,13 +54,18 @@ imap <buffer> <silent> <C-h> <Esc>:call Org_HeaderLevelMinus()<CR>a
 nmap <buffer> <localleader><C-i> :call Org_startTimestamp()<CR>
 nmap <buffer> <localleader><C-o> :call Org_EndTimestamp()<CR>
 
-nmap <buffer> <leader>d :read !date "+\%a, \%d \%B"<CR>
+" prints date in french
+nmap <buffer> <leader>d :call Org_printDate()<CR>
 
 " folding remappings
 nmap <buffer> <tab> za
 " nmap <buffer> <tab> :call Org_cycleVisibility()<CR>
 "open recursively even if partially open
-nnoremap zO zCzO
+
+" opening folds in visual is actually easier
+nnoremap zO zoV]zzO
+" nnoremap zO zCzO
+" nnoremap zO :call Org_foldOpenRecursive()<CR>
 nnoremap zC :call Org_foldCloseRecursive()<CR>
 
 nnoremap K <NOP>
@@ -76,9 +81,9 @@ function! Org_gotoSameLevel(dir)
     let l:line = line('.')
     let l:lvl = foldlevel(l:line)
     if a:dir == 1
-        call search('^\*\{'.l:lvl.'} ')
+        call search('^\*\{'.l:lvl.'} ','W')
     else
-        call search('^\*\{'.l:lvl.'} ','b')
+        call search('^\*\{'.l:lvl.'} ','bW')
     endif
 endfunction
 
@@ -120,16 +125,37 @@ function! Org_HeaderLevelMinus()
     call setpos('.',l:pos)
 endfunction
 
+function! Org_printDate()
+    " :read !LANG=fr_CA.UTF-8;date "+\%a. \%d \%B"<CR>
+
+    " read !date "+<\%d-\%m-\%Y \%H:\%M>"
+    let l:date = system("LANG=fr_CA.UTF-8;date '+\%a. \%d \%B'")
+    let l:date = l:date[:-2]
+    " call setline('.',l:date)
+    exe ":normal A".l:date
+endfunction
+
+"TODO : always put timestamp under ** header
 function! Org_startTimestamp()
     ":r !date "+\%a \%B \%d, 
-    read !date "+<\%d-\%m-\%Y \%H:\%M>"
-    "if already a date in the line
-    " let l:date = system("date +<%d-%m-%Y %H:%M>")
+    " read !date "+<\%d-\%m-\%Y \%H:\%M>"
+    let l:date = system("date +'<%d-%m-%Y %H:%M>'")
+    let l:date = l:date[:-2]
+    " call setline('.',l:date)
+    exe ":normal A	".l:date
+    normal V=$
 endfunction
 
 "TODO : must do the time calculation and printing it at the end
 function! Org_EndTimestamp()
     ":r !date "+\%a \%B \%d, 
+
+    "get line with specific header to stop backward search
+    let l:header_line = search('^\* ','bn')
+
+    " search for previous timestamp between cursor and header
+    let l:head = search('[ ]*<[0-9]\{2}-[0-9]\{2}-[0-9]\{4}','b',l:header_line)
+
     "if already a date in the line
     let l:starttime = getline('.')
     let l:date = system("date +'<%d-%m-%Y %H:%M>'")
@@ -199,10 +225,28 @@ endfunction
 function! Org_foldCloseRecursive()
     let l:pos = getpos('.')
     let l:line = l:pos[1]
-    echom "current line is ".l:line
     normal ]z
+    " greater and match case 
     while line('.') ># l:line
         normal zck
+    endwhile
+    call setpos('.',l:pos)
+endfunction
+
+" closes each header of higher level within section
+" there's a lot of stuff not working with this implementation
+function! Org_foldOpenRecursive()
+    let l:pos = getpos('.')
+    let l:line = l:pos[1]
+    normal zo]z
+    while line('.') ># l:line
+"         if foldclosed('.') == -1
+"             normal k
+"         else
+"             normal zo
+"         endif
+        " maximum of 3 levels to open in fold
+        normal zozozok
     endwhile
     call setpos('.',l:pos)
 endfunction

@@ -4,6 +4,11 @@ set nocompatible
 
 execute pathogen#infect()
 
+" disable bell
+set noerrorbells novisualbell 
+set belloff=all
+set t_vb=
+
 "========= GENERAL OPTIONS =========
 
 "Option to remove any traces in .viminfo
@@ -190,8 +195,6 @@ nnoremap ]q :cnext<CR>
 nnoremap [q :cprevious<CR>
 nnoremap ]Q :clast<CR>
 nnoremap [Q :cfirst<CR>
-
-nmap <tab> zo
 
 " use CTRL-A to go to beginning of a command
 cmap <c-a> <c-b>
