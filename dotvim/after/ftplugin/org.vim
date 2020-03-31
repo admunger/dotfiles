@@ -54,6 +54,7 @@ imap <buffer> <silent> <C-h> <Esc>:call Org_HeaderLevelMinus()<CR>a
 nmap <buffer> <localleader><C-i> :call Org_startTimestamp()<CR>
 nmap <buffer> <localleader><C-o> :call Org_EndTimestamp()<CR>
 
+" LANG=fr_CA.UTF-8
 " prints date in french
 nmap <buffer> <leader>d :call Org_printDate()<CR>
 
@@ -128,6 +129,7 @@ endfunction
 function! Org_printDate()
     " :read !LANG=fr_CA.UTF-8;date "+\%a. \%d \%B"<CR>
 
+    ":r !date "+\%a \%B \%d, 
     " read !date "+<\%d-\%m-\%Y \%H:\%M>"
     let l:date = system("LANG=fr_CA.UTF-8;date '+\%a. \%d \%B'")
     let l:date = l:date[:-2]
@@ -142,8 +144,8 @@ function! Org_startTimestamp()
     let l:date = system("date +'<%d-%m-%Y %H:%M>'")
     let l:date = l:date[:-2]
     " call setline('.',l:date)
-    exe ":normal A	".l:date
-    normal V=$
+    exe ":normal A".l:date
+    normal >>$
 endfunction
 
 "TODO : must do the time calculation and printing it at the end
@@ -168,13 +170,25 @@ function! Org_EndTimestamp()
     exe ":normal A - ".l:date
     
     " calculate timestamp difference
+
+    "this sections handle when work is done overnight
+    let l:date0 = matchstr(l:starttime,'[0-9]\{2}-[0-9]\{2}-[0-9]\{4}')
+    let l:d0 = l:date0[0:1]
+    "end day
+    let l:date1 = matchstr(l:date,'[0-9]\{2}-[0-9]\{2}-[0-9]\{4}')
+    let l:d1 = l:date1[0:1]
+    if l:d1 > l:d0
+        let l:add = (l:d1 - l:d0)*24
+    endif
+
     " start hours
     let l:start = matchstr(l:starttime,'[0-9]\{2}:[0-9]\{2}')
     let l:shour = l:start[0:1]
     let l:smin  = l:start[3:4]
 
+    "end hour
     let l:end   = matchstr(l:date,'[0-9]\{2}:[0-9]\{2}')
-    let l:ehour = l:end[0:1]
+    let l:ehour = l:end[0:1] + l:add
     let l:emin  = l:end[3:4]
 
     let l:diff  =  (l:emin - l:smin) + (l:ehour - l:shour)*60
