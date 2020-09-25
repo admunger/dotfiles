@@ -2,7 +2,7 @@ set nocompatible
 " set langmenu=en_US
 " let $LANG = 'en_US'
 
-execute pathogen#infect()
+" execute pathogen#infect()
 
 " disable bell
 set noerrorbells novisualbell 
@@ -285,8 +285,8 @@ autocmd Filetype csv setlocal nowrap "guioptions+=b
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " vimdiff config
-set diffopt+=iwhite
-set diffopt+=algorithm:minimal
+" set diffopt+=iwhite
+" set diffopt+=algorithm:minimal
 
 " vim -b : edit binary using xxd-format!
 " :%!xxd
