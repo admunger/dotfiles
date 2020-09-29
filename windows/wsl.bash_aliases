@@ -11,7 +11,7 @@ alias rm="rm -v -I"
 ssh_reset() {
     pkill ssh-agent
     eval $(ssh-agent -s)
-    ssh-add ~/.ssh/*
+    ssh-add ~/.ssh/private_key
 }
 # windows-specific aliases
 alias octave='/mnt/c/Octave/Octave-5.2.0/mingw64/bin/octave-cli.exe'

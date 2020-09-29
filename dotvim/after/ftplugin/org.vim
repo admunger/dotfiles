@@ -128,6 +128,8 @@ endfunction
 
 function! Org_printDate()
     " :read !LANG=fr_CA.UTF-8;date "+\%a. \%d \%B"<CR>
+    " uncomment /etc/locale.gen
+    " sudo locale-gen
 
     ":r !date "+\%a \%B \%d, 
     " read !date "+<\%d-\%m-\%Y \%H:\%M>"
@@ -179,6 +181,8 @@ function! Org_EndTimestamp()
     let l:d1 = l:date1[0:1]
     if l:d1 > l:d0
         let l:add = (l:d1 - l:d0)*24
+    else
+        let l:add = 0
     endif
 
     " start hours
@@ -194,6 +198,9 @@ function! Org_EndTimestamp()
     let l:diff  =  (l:emin - l:smin) + (l:ehour - l:shour)*60
     let l:hour  = l:diff / 60
     let l:min   = l:diff % 60
+    if len(l:min) == 1
+        let l:min = '0'.l:min
+    endif
     exe ":normal A -> ".l:hour.":".l:min
 
 endfunction

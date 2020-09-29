@@ -2,9 +2,9 @@ sudo apt-get update
 sudo apt-get upgrade -y
 
 # for editing
-sudo apt-get install vim vim-gtk tmux
+sudo apt-get install -y vim vim-gtk tmux
 # for work
-sudo apt-get install git tig man curl
+sudo apt-get install -y git tig man curl unzip pdfgrep
 
 # put home folder in same as Windows folder
 sudo su

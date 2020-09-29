@@ -1,8 +1,8 @@
-# uninstall Cortana
-
-
-
-
+# disable web search in start bar
+reg add HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer     /f /v DisableSearchBoxSuggestions /t REG_DWORD /d 1
+reg add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search /f /v BingSearchEnabled /t REG_DWORD /d 0
+reg add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search /f /v AllowSearchToUseLocation /t REG_DWORD /d 0
+reg add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search /f /v CortanaConsent /t REG_DWORD /d 0
 
 
 # powershell script to activate WSL
