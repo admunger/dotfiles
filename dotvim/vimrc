@@ -77,10 +77,11 @@ set t_Co=256 "256 colors
 "gvim configs
 if has('gui_running')
     " colorscheme badwolf "gurunew
-    colorscheme badwolf "gurunew
+    colorscheme monokai-phoenix "gurunew
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
+    set guifont=Consolas:h10.5
 
     "specify initial dimensions of the window
     set lines=50 columns=80
