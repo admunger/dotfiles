@@ -174,13 +174,15 @@ hi Error guifg=#F8F8F2 guibg=#960020 gui=NONE ctermfg=15 ctermbg=88 cterm=NONE
 hi Comment	ctermbg=233_Grey7 ctermfg=103 cterm=NONE
 
 " ORG-MODE
-hi OrgLevel1    guifg=#afd700 cterm=bold ctermfg=184_Yellow3
-hi OrgLevel2    guifg=#00af00 cterm=NONE ctermfg=040_Green3
-hi OrgLevel3    guifg=#00afff cterm=NONE ctermfg=039_DeepSkyBlue1
-hi OrgLevel4    guifg=#d78700 cterm=NONE ctermfg=172_Orange3
-hi OrgTodo      guifg=#d70000 cterm=bold ctermfg=160_Red3
-hi OrgProgress  guifg=#afaf00 cterm=bold ctermfg=142_Gold3
-hi OrgDone      guifg=#005f00 cterm=bold ctermfg=22_DarkGreen
+hi OrgLevel1    guifg=#afd700 cterm=bold    ctermfg=184_Yellow3
+hi OrgLevel2    guifg=#00af00 cterm=NONE    ctermfg=040_Green3
+hi OrgLevel3    guifg=#00afff cterm=NONE    ctermfg=039_DeepSkyBlue1
+hi OrgLevel4    guifg=#d78700 cterm=NONE    ctermfg=172_Orange3
+hi OrgLevel5    guifg=#d787af cterm=NONE    ctermfg=175_Pink3
+hi OrgTodo      guifg=#d70000 cterm=bold    ctermfg=160_Red3
+hi OrgProgress  guifg=#afaf00 cterm=bold    ctermfg=142_Gold3
+hi OrgDone      guifg=#005f00 cterm=bold    ctermfg=22_DarkGreen
+hi OrgContext   guifg=#a8a8a8 cterm=reverse ctermfg=248_Grey66
 
 " Makefile Highlighting
 """"""""""""""""""""""""""""""""""""""

@@ -11,10 +11,13 @@ syn match OrgLevel3 /^\*\*\* .*/
             \ contains=OrgTodo,OrgProgress,OrgDone
 syn match OrgLevel4 /^\*\*\*\* .*/
             \ contains=OrgTodo,OrgProgress,OrgDone
+syn match OrgLevel5 /^\*\*\*\*\* .*/
 
-syn match OrgComment /^#[ +].*/
+syn match OrgComment /^[ ]*#[ +].*/
 
 syn match OrgTimestamp /<[0-9].\+:[0-9]\+>.*/
+
+syn match OrgContext /`[^`]\+`/
 
 "folding first level
 " syn region orgFoldLevel1

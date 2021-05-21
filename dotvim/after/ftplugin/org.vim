@@ -54,6 +54,8 @@ imap <buffer> <silent> <C-h> <Esc>:call Org_HeaderLevelMinus()<CR>a
 nmap <buffer> <localleader><C-i> :call Org_startTimestamp()<CR>
 nmap <buffer> <localleader><C-o> :call Org_EndTimestamp()<CR>
 
+nmap <buffer> <localleader><C-x> :call Org_insertCheckmark()<CR>
+
 " LANG=fr_CA.UTF-8
 " prints date in french
 nmap <buffer> <leader>d :call Org_printDate()<CR>
@@ -309,3 +311,33 @@ function! Org_setText(lnum)
     return getline(a:lnum)
 endfunction
 
+"toggle checkmark
+" if there is "[ ]" inside the line, it add X in it
+" else if there is "[X]" it changes it to "[ ]"
+function! Org_insertCheckmark()
+
+    normal _
+    "get character under cursor, capture single-byte simple characters
+    let l:line = getline('.')
+
+    " find if there is a checkbox "[ ]
+
+    "check if 1st chacracter is a dash
+    if(l:line =~ "\\[ ]")
+        let l:newline = substitute(l:line, "\\[ ]", "[X]", "g")
+        echo l:newline
+        call setline(line('.'), l:newline)
+    elseif(l:line =~ "\\[X]")
+        let l:newline = substitute(l:line, "\\[X]", "[ ]", "g")
+        echo l:newline
+        call setline(line('.'), l:newline)
+    endif
+
+"     if(l:line[col('.')-1] =~ "[-]")
+"         normal r√
+"     " use matchstr to capture complex digraphs
+"     elseif(matchstr(l:line, '\%' . col('.') . 'c.') == "√" )
+"         normal r-
+"     endif
+    
+endfunction
