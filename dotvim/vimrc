@@ -9,6 +9,10 @@ set noerrorbells novisualbell
 set belloff=all
 set t_vb=
 
+"else last WSL version makes VIM open in Replace mode
+"disables Vim requesting cursor position
+set t_u7=
+
 "========= GENERAL OPTIONS =========
 
 "Option to remove any traces in .viminfo
@@ -174,6 +178,7 @@ inoremap <C-b> <C-o>h
 "Fuck Ex mode
 nnoremap Q <nop>
 
+"count the occurences of last search result in file
 nmap <leader><Space> :%s@<C-r>/@@gn<CR>
 
 "navigation between splits
@@ -216,8 +221,6 @@ cnoreabbrev NT call NT()
 " restore Normal terminal background; black
 autocmd VimLeave * hi Normal ctermbg=016_Grey0
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-"This is a troll to test
-"autocmd VimLeave * silent! !cowsay "Surprise\!\!\!" && read
 
 "############ PLUGIN CONFIGURATIONS ############
 
@@ -226,12 +229,15 @@ let NERDTreeIgnore = ['\.dll$','\.pdb$','\.suo$','\.sdf$']
 let NERDTreeWinSize=40
 
 function g:NT()
-    if !empty(&ft)
-        NERDTreeFind
-    else
-        NERDTree
-    end
-    echo
+    "using Netrw instead of Nerdtree, for faster response
+    let g:netrw_liststyle = 3
+    Lexplore
+"     if !empty(&ft)
+"         NERDTreeFind
+"     else
+"         NERDTree
+"     end
+"     echo
 endfunction
 
 " IMPORTANT: grep will sometimes skip displaying the file name if you

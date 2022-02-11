@@ -3,8 +3,10 @@ if exists("b:current_syntax")
 endif
 
 syn match OrgTodo       /\<TODO\>/
+syn match OrgProgress   /\<PROG\>/
 syn match OrgProgress   /\<PROGRESS\>/
 syn match OrgDone       /\<DONE\>/
+
 syn match OrgLevel1 /^\* .*/
 syn match OrgLevel2 /^\*\* .*/
 syn match OrgLevel3 /^\*\*\* .*/
@@ -17,7 +19,15 @@ syn match OrgComment /^[ ]*#[ +].*/
 
 syn match OrgTimestamp /<[0-9].\+:[0-9]\+>.*/
 
-syn match OrgContext /`[^`]\+`/
+"monospace inverted text highlight for path or specific code
+syn match OrgContextContainer /`[^`]\+`/ contains=OrgContext
+syn match OrgContext /[^`]\+/ contained
+
+"similar to OrgContext but not inverted and subtle
+"uses "bold syntax : *word* "
+"spaces are specified to avoid highlight in equation
+syn match OrgEmphasis / \*\<[- A-Za-z]\+\>\* / 
+    " \ containedin=OrgEmphasisContainer
 
 "folding first level
 " syn region orgFoldLevel1

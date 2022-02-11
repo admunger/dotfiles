@@ -1,0 +1,6 @@
+
+% custom formatting
+format short eng
+
+printf('Local config available at : ~/.octaverc\n\n');
+
