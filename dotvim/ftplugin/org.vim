@@ -16,12 +16,12 @@
 " C-x C-o : clock-out timestamp
 
 "HEADER GUARD to avoid including this file multiple times
-if exists("g:org_ftplugin_loaded")
+if exists("b:org_ftplugin_loaded")
 "     source ~/.vim/plugin/comments.vim
     finish
 endif
 
-let g:org_ftplugin_loaded = 1
+let b:org_ftplugin_loaded = 1
 
 " nnoremap <tab> :Org_toggleHeader(v:lnum)
 
@@ -42,26 +42,30 @@ set shiftwidth=2
 " localleader is <C-x>
 let maplocalleader=""
 
-nmap <buffer> <silent> <C-j> :call Org_gotoSameLevel(1)<CR>
-nmap <buffer> <silent> <C-k> :call Org_gotoSameLevel(-1)<CR>
-imap <buffer> <silent> <C-j> <Esc>ms:call Org_addHeader()<CR>a
+nnoremap <buffer> <silent> <C-j> :call Org_gotoSameLevel(1)<CR>
+nnoremap <buffer> <silent> <C-k> :call Org_gotoSameLevel(-1)<CR>
+inoremap <buffer> <silent> <C-j> <Esc>ms:call Org_addHeader()<CR>a
 
 " allows to change level of header
-imap <buffer> <silent> <C-l> <Esc>:call Org_HeaderLevelPlus()<CR>a
-imap <buffer> <silent> <C-h> <Esc>:call Org_HeaderLevelMinus()<CR>a
+inoremap <buffer> <silent> <C-l> <Esc>:call Org_HeaderLevelPlus()<CR>a
+inoremap <buffer> <silent> <C-h> <Esc>:call Org_HeaderLevelMinus()<CR>a
 
-
-nmap <buffer> <localleader><C-i> :call Org_startTimestamp()<CR>
-nmap <buffer> <localleader><C-o> :call Org_EndTimestamp()<CR>
-
-nmap <buffer> <localleader><C-x> :call Org_insertCheckmark()<CR>
-
+" timestamp
 " LANG=fr_CA.UTF-8
 " prints date in french
-nmap <buffer> <leader>d :call Org_printDate()<CR>
+nnoremap <buffer> <leader>d :call Org_printDate()<CR>
+nnoremap <buffer> <localleader><C-i> :call Org_startTimestamp()<CR>
+nnoremap <buffer> <localleader><C-o> :call Org_EndTimestamp()<CR>
+
+" check boxes
+nnoremap <buffer> <localleader><C-x> :call Org_insertCheckmark()<CR>
+
+" increment numbered list
+inoremap <buffer> <localleader><CR> <C-o>:call Org_add_numbered_item()<CR>
+
 
 " folding remappings
-nmap <buffer> <tab> za
+nnoremap <buffer> <tab> za
 " nmap <buffer> <tab> :call Org_cycleVisibility()<CR>
 "open recursively even if partially open
 
@@ -325,11 +329,11 @@ function! Org_insertCheckmark()
     "check if 1st chacracter is a dash
     if(l:line =~ "\\[ ]")
         let l:newline = substitute(l:line, "\\[ ]", "[X]", "g")
-        echo l:newline
+        " echo l:newline
         call setline(line('.'), l:newline)
     elseif(l:line =~ "\\[X]")
         let l:newline = substitute(l:line, "\\[X]", "[ ]", "g")
-        echo l:newline
+        " echo l:newline
         call setline(line('.'), l:newline)
     endif
 
@@ -341,3 +345,84 @@ function! Org_insertCheckmark()
 "     endif
     
 endfunction
+
+"can only be used in INSERT mode
+function! Org_add_numbered_item()
+    let l:line = getline('.')
+
+    "detects that the current line is a numbered item
+    if (l:line =~ " *[0-9]\\+[).-][ ]*")
+        "get number starting the item
+        let l:num = substitute(l:line, "\\([0-9]\\+\\).*", "\\1","g")
+        "get "." or ")" or "-" following number
+
+        "we keep only the 1st character and a space (if present) after the number
+        "this removes space before the number and character after separator
+        let l:separator = substitute(l:line, " *[0-9]\\+\\([).-][ ]\\?\\).*","\\1","g")
+
+        let l:num = str2nr(l:num)
+        let l:num += 1
+
+        "fetch number
+"         let l:header = substitute(l:line, "\([0-9]\+[.-]\)", "\1")
+"         echo l:header
+        exe ":normal o" . l:num . l:separator
+    else
+        normal o
+    endif
+endfunction
+
+" returns the line numbers with a Org directive (#! ...)
+function! Org_get_directives()
+    " assuming directives are only within the first 50 lines
+    " can only deal with 1 instructions
+
+    "save cursor position
+
+" 		    [0, lnum, col, off, curswant] ~
+    let l:cur = getcurpos()
+
+
+    call cursor(1,1)
+    let l:num = search("^#!", "nc", 50)
+    "if a match had been found
+    if l:num != 0
+        "check FOLDLEVEL directive
+        if getline(l:num) =~# ".*FOLDLEVEL.*"
+            call Org_set_foldlevel(l:num)
+        endif
+    endif
+
+    call cursor(l:cur[1], l:cur[2])
+
+
+endfunction
+
+function! Org_set_foldlevel(line)
+    " retrieve ORG command
+    let directive = substitute(getline(a:line),"^#![ ]*","","")
+
+    let foldlvl = substitute(getline(a:line), "#![ ]*FOLDLEVEL:\\([0-9]\\).*","\\1","")
+
+    "echo "Org instruction : fold level = " . foldlvl
+
+    exe ":set foldlevel=".foldlvl
+
+
+endfunction
+
+
+"execute ORG directive when opening file
+call Org_get_directives()
+
+
+" Vim variables prefixes
+" in SCRIPT : 
+"       a:var (function argument)
+"   let g:var_global
+"   let s:var_local (to script), also available to function names
+"   let l:var_local (to function)
+" in VIM : 
+"   let w:var_local (to window)
+"   let b:var_local (to buffer)
+"   let t:var_local (to tab)

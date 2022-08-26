@@ -16,6 +16,7 @@ syn match OrgLevel4 /^\*\*\*\* .*/
 syn match OrgLevel5 /^\*\*\*\*\* .*/
 
 syn match OrgComment /^[ ]*#[ +].*/
+syn match OrgDirective /^#!.*/
 
 syn match OrgTimestamp /<[0-9].\+:[0-9]\+>.*/
 
@@ -26,8 +27,10 @@ syn match OrgContext /[^`]\+/ contained
 "similar to OrgContext but not inverted and subtle
 "uses "bold syntax : *word* "
 "spaces are specified to avoid highlight in equation
-syn match OrgEmphasis / \*\<[- A-Za-z]\+\>\* / 
+"emphasis can be on accented letters
+syn match OrgEmphasis / \*\<[- A-zÀ-ÿ]\+\>\*\([ ]\|$\)/ 
     " \ containedin=OrgEmphasisContainer
+syn match OrgUsername / [@][a-z][a-z][a-z]\>/
 
 "folding first level
 " syn region orgFoldLevel1
@@ -38,8 +41,10 @@ syn match OrgEmphasis / \*\<[- A-Za-z]\+\>\* /
 "     \ containedin=ALLBUT,@orgFoldLevel1
 
 hi def link OrgComment      Comment
+hi def link OrgDirective    SpecialComment
 hi def link OrgTimestamp    Comment
 hi def link OrgTODO         Todo
+hi def link OrgUsername     OrgEmphasis
 
 let b:current_syntax = "org"
 
