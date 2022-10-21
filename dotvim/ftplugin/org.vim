@@ -83,6 +83,20 @@ let s:maxLevel = 5
 " nnoremap <buffer> j j:echo foldlevel('.')<CR>
 " nnoremap <buffer> k k:echo foldlevel('.')<CR>
 
+"quickfix remap
+nnoremap ]q :cnext<CR>zO
+nnoremap [q :cprevious<CR>zO
+cnoreabbrev dashboard call Org_createDashboard()
+cnoreabbrev dash call Org_createDashboard()
+
+"when in buffer, try to insert checkmark
+"when in quickfix, update dashboard
+" nnoremap <expr> <localleader><C-x> &buftype ==# 'quickfix' ? ":call Org_updateDashboard()<CR>" : ":call Org_insertCheckmark()<CR>"
+
+"open dashboard
+nnoremap <buffer> <localleader><C-d> :call Org_updateDashboard()<CR>
+
+
 
 function! Org_gotoSameLevel(dir)
     let l:line = line('.')
@@ -410,6 +424,35 @@ function! Org_set_foldlevel(line)
 
 
 endfunction
+
+"uses the location buffer feature to display all remaining TODO in an agenda
+"if the location window doesn't exist, create it
+"location buffer allows to search within only one window
+function Org_createDashboard()
+    let g:qfix_name = bufname("%")
+
+    " search all TODO not in a comment or in a header
+    exe ":vimgrep /^[ ]*[^#*]*[ ]*TODO/ %"
+    copen
+    " endif
+endfunction
+
+function Org_updateDashboard()
+    if !exists("g:qfix_name")
+        " we're in the .org buffer
+        let g:qfix_name = bufname("%")
+        exe ":vimgrep /^[ ]*[^#*]*[ ]*TODO/ " .g:qfix_name
+
+        "we jump to the first TODO item
+        normal zO
+        cfirst
+    else
+        exe ":vimgrep /^[ ]*[^#*]*[ ]*TODO/ " .g:qfix_name
+    endif
+
+"     let list = getloclist(0,
+"     setloclist(0,  
+ endfunction
 
 
 "execute ORG directive when opening file

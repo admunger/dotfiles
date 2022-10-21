@@ -179,9 +179,14 @@ hi OrgLevel2    guifg=#00af00 cterm=NONE    ctermfg=040_Green3
 hi OrgLevel3    guifg=#00afff cterm=NONE    ctermfg=039_DeepSkyBlue1
 hi OrgLevel4    guifg=#d78700 cterm=NONE    ctermfg=172_Orange3
 hi OrgLevel5    guifg=#d787af cterm=NONE    ctermfg=175_Pink3
+
 hi OrgTodo      guifg=#d70000 cterm=bold    ctermfg=160_Red3
 hi OrgProgress  guifg=#afaf00 cterm=bold    ctermfg=142_Gold3
 hi OrgDone      guifg=#005f00 cterm=bold    ctermfg=22_DarkGreen
+hi OrgWaiting   guifg=#ff8700 cterm=bold    ctermfg=208_DarkOrange
+hi OrgCritical  guifg=#d70000 cterm=reverse ctermfg=160_Red3
+
+
 hi OrgContext   guifg=#a8a8a8 cterm=reverse ctermfg=248_Grey66
 hi OrgEmphasis  guifg=#f8f8f2 cterm=bold    ctermfg=223_NavajoWhite1
 
